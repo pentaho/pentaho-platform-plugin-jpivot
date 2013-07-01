@@ -1,0 +1,2 @@
+pentaho-platform-plugin-jpivot
+==============================
