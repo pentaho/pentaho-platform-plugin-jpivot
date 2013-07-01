@@ -1,0 +1,33 @@
+#navi01  {
+	position: absolute;
+	background-color: #FFFFFF;
+	left: 10px;
+	top: 5px;
+	width:400px;
+
+}
+
+#chartform01 {
+	position: absolute;
+	background-color: #FFFFFF;
+	overflow: scroll;
+	left: 10px;
+	top: 70px;
+}
+
+#internal_content {
+	position:relative;
+	top:30px;
+}
+
+#folder-options {
+	position: fixed;
+top: 0;
+width: 100%;
+z-index:1000;
+}
+
+div.browser {
+z-index:2000;
+}
+

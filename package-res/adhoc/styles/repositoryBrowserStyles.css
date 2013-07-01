@@ -1,0 +1,171 @@
+/* BEGIN repository browser */
+
+div.browser
+{
+	font-family:Tahoma,"Trebuchet MS",Arial;
+	position:absolute; top:0px; left:0px;
+	background:url(../images/spacer.png);
+}
+input.browserSaveAsText
+{
+	cursor:text;
+	border: 1px solid #818f49;
+	width:100%;
+}
+div.browserSolutionList
+{
+	overflow:auto; 
+	border: 1px solid #818f49; 
+	background-color: #ffffff; 
+	width: 100%;
+	height:11em;
+	cursor:default;
+}
+div.browserSolutionList table tr td
+{
+	padding-left: 5px;
+}
+
+/* output checkbox stuff */
+
+.container_head_left1 {
+	height: 10px; 
+}	
+.container_head_right1 {
+	height: 10px; 
+	padding: 0px 5px 0px 5px; 
+	font: normal .85em Tahoma, "Trebuchet MS", Arial;
+}
+
+.container_head_middle1 {
+	height: 10px;  
+	width: 100%;
+}
+
+.container_head_middle2 {
+	border-top: 1px solid #bdbcbc; 
+	padding: 0px;
+}
+.container_head_left2 {
+	border-top: 1px solid #bdbcbc; 
+	border-left: 1px solid #bdbcbc; 
+	width: 5px; 
+	padding: 0px;
+}
+
+.container_head_right2 {
+	border-top: 1px solid #bdbcbc; 
+	border-right: 1px solid #bdbcbc; 
+	width: 100%; 
+	padding: 0px;
+}
+.container_content {
+	border-left: 1px solid #bdbcbc; 
+	border-right: 1px solid #bdbcbc; 
+	border-bottom: 1px solid #bdbcbc;
+	padding: 0px 10px 5px 10px;
+	vertical-align:top;
+	}
+
+/*style for repository browser's combo's picklist*/
+.itemHilight
+{
+	background-color: #bbbbbb; 
+}
+.itemNormal
+{
+	background-color: #ffffff; 
+}
+
+td.normalLargeButtonTxt
+{
+	background-repeat:repeat-x;	
+	font: normal .85em Tahoma, "Trebuchet MS", Arial;
+	color: #4b5660;
+}
+
+td.hoverLargeButtonTxt
+{
+	background-repeat:repeat-x;	
+	font: normal .85em Tahoma, "Trebuchet MS", Arial;
+}
+
+td.disabledLargeButtonTxt
+{
+	background-repeat:repeat-x;	
+	font: normal .85em Tahoma, "Trebuchet MS", Arial;
+}
+/* END repository browser */
+
+
+.popupDialog_table {
+	background-color: #f3f3f3;
+	border: 3px outset #808080;
+}
+.popupDialog_header {
+	padding: 0px 0px 0px 5px;
+	height: 25px;
+	background-color: #a8d36f;
+	border-bottom: 1px solid #808080;
+	color: #000000;
+}
+.popupDialogTitleBar {
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:25px;
+	width:100%;
+	padding:5px 0px 0px 10px;
+	cursor:pointer;
+}
+/* list control in repository browser */
+
+tr.unselectedItem {
+	background-color: #ffffff;
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	vertical-align: middle;
+	cursor:default;
+}
+
+tr.selectedItem {
+	background-color: #bbbbbb;
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	vertical-align: middle;
+	cursor:default;
+}
+/* end list control in repository browser */
+
+table.buttonCtrl
+{
+	cursor:pointer;
+}
+/*style for repository browser's combo's picklist*/
+.itemHilight
+{
+	background-color: #bbbbbb; 
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+}
+.itemNormal
+{
+	background-color: #ffffff; 
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+}
+/* END  repository browser's combo's picklist */
+
+/*styles for the PickListCtrl*/
+div.pickList
+{
+	position: absolute;
+	background-color: white;
+	border: 1px solid #818f49;
+	overflow-x: auto;
+	overflow-y: auto;
+	cursor: pointer;
+	padding: 0.3em;
+	opacity: 0.9;
+}
+/* end styles for the PickListCtrl*/

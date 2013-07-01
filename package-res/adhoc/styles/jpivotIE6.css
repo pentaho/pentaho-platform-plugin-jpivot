@@ -1,0 +1,9 @@
+
+#folder-options {
+	position: absolute;
+	top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ?
+		documentElement.scrollTop: 
+		document.body.scrollTop);
+	left:0;
+}
+

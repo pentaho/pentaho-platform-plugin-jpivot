@@ -1,0 +1,63 @@
+<html>
+<body onload="init()">
+<style media="screen" type="text/css">
+body {
+	font-family: Arial, Sans serif;
+}
+</style>
+<script type="text/javascript">
+var json = {json};
+// TODO: POPULATE cube and schema
+function init() {
+	if (json.length > 0) {
+		var sel = document.getElementById('schema');
+		sel.options.length = 0; // clear out existing items
+		for(var i=0; i < json.length; i++) {
+		    sel.options.add(new Option(json[i].schema, json[i].schema));
+		}
+		var selc = document.getElementById('cube');
+		selc.options.length = 0;
+		for(var i=0; i < json[0].cubes.length; i++) {
+		    selc.options.add(new Option(json[0].cubes[i], json[0].cubes[i]));
+		}
+	}
+}
+function schemaChanged(sel) {
+	var selc = document.getElementById('cube');
+	selc.options.length = 0;
+	for (var i=0; i < json.length; i++) {
+		if (json[i].schema == sel.options[sel.selectedIndex].value) {
+			for(var j=0; j < json[i].cubes.length; j++) {
+				selc.options.add(new Option(json[i].cubes[j], json[i].cubes[j]));
+			}
+			return;
+		}
+	}
+}
+</script>
+
+<form action="{context}/plugin/jpivot/Pivot">
+<input type="hidden" name="new-action" value="true">
+<center>
+<table>
+<tr><th>
+<h3>New JPivot View</h3></th></tr>
+<tr><td>Schema</td></tr>
+<tr><td>
+	<select id="schema" name="schema" onchange="schemaChanged(this)">
+	</select>
+</td></tr>
+<tr><td>
+<tr><td>Cube</td></tr>
+<tr><td>
+	<select id="cube" name="cube">
+	</select>
+</td></tr>
+<tr><td align="RIGHT">
+	<input type="submit" name="Ok" value="Ok">
+</td></tr>
+</table>
+</center>
+</form>
+</body>
+</html>

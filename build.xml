@@ -1,0 +1,22 @@
+<project name="Pentaho Platform JPivot Plugin" basedir="." default="default" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <import file="build-res/subfloor-pkg.xml" />
+  <!--=======================================================================
+      continuous
+
+      Runs a typical continuous integration build including project dist, javadoc, test,
+      and coverage artifacts
+      ====================================================================-->
+  <target name="continuous" depends="clean-all,resolve,dist,cobertura,publish"/>
+	
+  <target name="assemble.copy-libs">
+    <copy todir="${approot.stage.dir}/lib">
+      <fileset dir="${lib.dir}">
+      		<include name="jpivot*"/>
+    	    <include name="tbutil*"/>
+    	    <include name="wcf*"/>
+  	  </fileset>
+      <fileset file="${dist.dir}/${ivy.artifact.id}-${project.revision}.jar" />
+    </copy>
+  </target>
+	
+</project>

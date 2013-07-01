@@ -1,0 +1,202 @@
+
+/* for selected item */
+tr.userRoleListItem
+{
+	background-color: #FFFFFF;
+}
+tr.unuserRoleListItem
+{
+	background-color: #FFFFFF;
+}
+tr.userRoleListItem td
+{
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	vertical-align: middle;
+	cursor:default;
+}
+/* for unselected item */
+tr.unuserRoleListItem td
+{
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	vertical-align: middle;
+	cursor:default;
+}
+
+div.userRoleList
+{
+	overflow-y:auto; 
+	overflow-x:hidden; 
+	border: 1px solid #818f49;
+	background-color: #ffffff; 
+	padding: 5px;
+	width:475px;
+	height:320px;
+}
+div.userRoleList table
+{
+	width:100%;
+	background-color: #ffffff; 
+	padding: 5px; 
+}
+div.userRoleList table tbody th
+{
+	text-align: left;
+	background-color: #C4CFA2;
+	padding:2px 6px 2px 6px;
+}
+
+/* acl editor */
+div.modalMask {
+	font-family:Tahoma,"Trebuchet MS",Arial;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background:url(../images/spacer.png);
+}
+
+div.aclDialog {
+	position: absolute;
+	width: 555px;
+	height:515px;
+}
+
+table.aclDialogTable {
+	width:100%;
+	height:100%;
+}
+
+div.aclDialogClientArea
+{
+	width:100%;
+	height:100%;
+}
+.aclDialogHeader {
+	padding: 0px 0px 0px 5px;
+	height: 25px;
+	background-color: #a8d36f;
+	border-bottom: 1px solid #808080;
+	color: #000000;
+}
+.aclDialogTitleBar {
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:25px;
+	width:100%;
+	padding:5px 0px 0px 10px;
+	cursor:pointer;
+}
+
+.aclDialogTable {
+	background-color: #f3f3f3;
+	border: 3px outset #808080;
+	width:100%;
+	height:100%;
+}
+
+.aclDialogClientDiv {
+	padding:20px;
+}
+
+.aclDialogClientRow {
+	/*vertical-align:top;*/
+}
+
+.aclDialogBtnDiv {
+	padding: 10px 20px 15px 0px;
+}
+
+tr.aclDialogBntRow {
+	/*vertical-align:bottom;*/
+}
+/* END ACL Editor */
+
+
+/*Begin TabCtrl*/
+td.tabActive
+{
+	/*padding-bottom: 1px;*/
+}
+/*
+ * NOTE: border bottoms on the td seem to cause a blank row of pixels at the
+ * base of the td, order bottom on the outer span doesnt cause this problem.
+ */
+td.tabInactive
+{
+  /*border-bottom: 1px solid #6C6C69;*/
+}
+
+td.blankTab
+{
+	width:100%;
+  border-bottom: 1px solid #6C6C69;
+}
+
+td.tabActive>span>span
+{
+	float:left;
+	padding:.5em 10px .5em 5px; /*top right bottom left*/
+	/*margin:0px;
+	margin-right:0px;*/
+	background:url(../images/tabRight.png) no-repeat right -42px;
+}
+
+td.tabActive>span
+{
+	border:0px solid yellow;
+	float:left;
+	padding:0 0 1px 5px; /*top right bottom left*/
+	/*margin:0px;
+	margin-bottom: 0px;*/
+	background:url(../images/tabLeft.png) no-repeat left -42px;
+}
+
+td.tabActive>span>span>a
+{
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	color:black;
+}
+
+td.tabInactive>span>span
+{
+	float:left;
+	display:block;
+	padding:.5em 10px .5em 5px; /*top right bottom left*/
+	/*margin:0px;*/
+	margin-right:2px;
+	background:url(../images/tabRight.png) no-repeat right top;
+}
+
+td.tabInactive>span
+{
+	border:0px solid yellow;
+	float:left;
+	padding:0 0 0 5px; /*top right bottom left*/
+	/*margin:0px;
+	margin-bottom: 0px;*/
+	background:url(../images/tabLeft.png) no-repeat left top;
+	border-bottom:1px solid #6C6C69;
+}
+
+td.tabInactive>span>span>a
+{
+	font: normal 1em Tahoma, "Trebuchet MS", Arial;
+	color:#555555;
+}
+
+div.tabPanel
+{
+	border-top: 0px solid #6C6C69;
+  border-left: 1px solid #6C6C69;
+  border-right: 1px solid #6C6C69;
+  border-bottom: 1px solid #6C6C69;
+  padding: 10px;
+}
+/*end TabCtrl*/
+

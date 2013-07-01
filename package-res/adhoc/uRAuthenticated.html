@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Adhoc Reporting</title>
+
+	<script src="../js/dojo.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+		dojo.registerModulePath("adhoc", "../adhoc/js");
+		
+		function init()
+		{
+			Messages.setElementText("youMayContinue", "youMayContinue");
+			Messages.setElementText("close", "close");
+		}
+	</script>
+	<!-- Messages class's static initialization must take place AFTER dojo.registerModulePath is called -->
+	<script src="js/common/ui/messages/Messages.js" type="text/javascript"></script>
+  <script type="text/javascript">
+		Messages.addBundle("adhoc.ui.messages", "message_strings");
+	</script>
+</head>
+
+<body onload="javascript:init();">
+<div id="youMayContinue">_You may now continue.</div>
+<a id="close" href='javascript:window.close();'>_close</a>
+</body>
+</html>

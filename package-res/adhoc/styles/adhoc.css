@@ -1,0 +1,100 @@
+
+ body{
+  margin:0;
+  background-color:#ffffff;
+  font-family: Tahoma,Arial,Helvetica,sans-serif;
+ }
+ div#header{
+  width:100%;
+  background-image:url(../images/wizard_task_bg.png);
+  background-repeat: repeat-x;
+  height:  28px;
+ } 
+ 
+ div#content{
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  
+ }
+ div#footer{
+  position:absolute;
+  padding: 8px 8px 0px 8px;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:50px;  
+  background-color:#ffffff;
+  border-top: 1px solid #e4e4e4;
+ }
+ @media screen{
+  body>div#footer{
+   position:fixed;
+  }
+ }
+ * html body{
+  overflow:hidden;
+ } 
+ * html div#content0{
+  height:100%;
+  overflow:auto;
+ }
+ * html div#content1{
+  height:100%;
+  overflow:auto;
+ }
+ * html div#content2{
+  height:100%;
+  overflow:auto;
+ }
+ * html div#content3{
+  height:100%;
+  overflow:auto;
+ }
+  
+.wizard_content {
+	color: #000000;
+	padding: 15px 15px 0px 15px;
+}
+
+ /* BEGIN CSS FOR WIZARD TITLES */
+
+.wizard_title { 
+	font: normal 1.35em Tahoma, "Trebuchet MS", Arial;
+	position: relative; left: 20px; top: -13px; 
+	color: #a0a0a0; 
+	vertical-align:text-top;
+}
+.wizard_shadow { 
+	position: absolute; 
+	left: -1px; 
+	top: -1px; 
+	color: #ffffff;
+	vertical-align:text-top;
+}
+
+/* TODO sbarkdull, may not be used, items in lists that are not selected, usually a tr*/
+.panelitem {
+	padding:0px;
+	margin:0px;
+	border-top:2px solid #ffffff;
+}
+
+/* TODO sbarkdull, may not be used, items in lists that are selected, usually a tr*/
+.panelitemselected {
+	padding:0px;
+	margin:0px;
+	border-top:2px solid #ffffff;
+	background-color:#bbbbbb;
+}
+
+.panelitemdragover {
+	padding:0px;
+	margin:0px;
+	border-top:2px solid #80ff80;
+}
+
+ /* END CSS FOR WIZARD TITLES */
+  
+  

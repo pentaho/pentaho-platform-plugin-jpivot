@@ -1,0 +1,1850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Adhoc Reporting</title>
+  <link rel="shortcut icon" href="/pentaho-style/favicon.ico" />
+  <link href="styles/adhoc.css" rel="stylesheet" type="text/css" />
+  <link href="styles/common.css" rel="stylesheet" type="text/css" />
+  <link href="styles/styles-new.css" rel="stylesheet" type="text/css" />
+  <link href="js/common/ui/calendar/calendar-win2k-1.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="../content/data-access/resources/gwt/datasourceEditorDialog.css">
+
+  <script src="../js/ajaxslt0.7/xmltoken.js" type="text/javascript"></script>
+  <script src="../js/ajaxslt0.7/util.js" type="text/javascript"></script> 
+  <script src="../js/ajaxslt0.7/dom.js" type="text/javascript"></script>
+  <script src="../js/ajaxslt0.7/xpath.js" type="text/javascript"></script>
+  <script src="../js/ajaxslt0.7/xslt.js" type="text/javascript"></script>
+
+  <script src="../js/pentaho-ajax.js" type="text/javascript"></script>
+  <script src="../js/utils.js" type="text/javascript"></script>
+
+  <!--   Temporary fix for GWT localization BISERVER-3640 -->
+  <script src="../js/browserLocale.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    function getLocalePref() { 
+      var m = document.getElementsByTagName('meta'); 
+      for(var i in m){ 
+        if(m[i].name == "gwt:property") { 
+          return m[i].content.substring(m[i].content.indexOf('=')+1).replace('_', '-'); 
+        } 
+      } 
+      // we didn't find it..
+      // default to old behavior
+      if ( navigator ) {
+        if ( navigator.language ) {
+          return navigator.language;
+        }
+        else if ( navigator.browserLanguage ) {
+          return navigator.browserLanguage;
+        }
+        else if ( navigator.systemLanguage ) {
+          return navigator.systemLanguage;
+        }
+        else if ( navigator.userLanguage ) {
+          return navigator.userLanguage;
+        }
+      }      
+    }
+
+    djConfig = { isDebug: false, locale: getLocalePref() };
+  </script>
+
+  <script src="../js/dojo.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    dojo.registerModulePath("adhoc", "../adhoc/js");
+  </script>
+  <script src="js/common/ui/messages/Messages.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    Messages.addBundle("adhoc.ui.messages", "message_strings");
+  </script>
+  <script src="js/common/ui/calendar/calendar.js" type="text/javascript"></script>
+  <script src="js/common/ui/calendar/calendar-setup.js" type="text/javascript"></script>
+  <script src="js/common/ui/calendar/lang/calendar-en.js" type="text/javascript"></script>
+  
+  <script src="js/common/util/StringUtils.js" type="text/javascript"></script>
+  <script src="js/common/util/Status.js" type="text/javascript"></script>
+  <script src="js/common/util/Debug.js" type="text/javascript"></script>
+  <script src="js/common/util/XmlUtil.js" type="text/javascript"></script>
+  
+  <script src="js/model/MDModels.js" type="text/javascript"></script>
+  <script src="js/model/MDModel.js" type="text/javascript"></script>
+  <script src="js/model/BusinessTable.js" type="text/javascript"></script>
+  <script src="js/model/BusinessView.js" type="text/javascript"></script>
+  <script src="js/model/BVItem.js" type="text/javascript"></script>
+  <script src="js/model/Constraint.js" type="text/javascript"></script>
+  <script src="js/model/Constraints.js" type="text/javascript"></script>
+  <script src="js/model/MQLConstraintParser.js" type="text/javascript"></script>
+  <script src="js/model/Sort.js" type="text/javascript"></script>
+  <script src="js/model/RSBaseItem.js" type="text/javascript"></script>
+  <script src="js/model/RSGroupItem.js" type="text/javascript"></script>
+  <script src="js/model/RSDetailItem.js" type="text/javascript"></script>
+  <script src="js/model/RSFilterItem.js" type="text/javascript"></script>
+  <script src="js/model/RSGroupHeader.js" type="text/javascript"></script>
+  <script src="js/model/ReportSpec.js" type="text/javascript"></script>
+  <script src="js/model/WaqrRepository.js" type="text/javascript"></script>
+  <script src="js/model/SolutionRepository.js" type="text/javascript"></script>
+  
+  <script src="js/common/ui/UIUtil.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    UIUtil.setImageFolderPath( "images/" );
+  </script>
+  <script src="js/common/ui/HTMLCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/Logger.js" type="text/javascript"></script>
+  <script src="js/common/ui/BusyCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/TabCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/PickListCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/ListCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/RadioButtonsCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/ComboCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/Dialog.js" type="text/javascript"></script>
+  <script src="js/common/ui/EditableListCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/SelectCtrl.js" type="text/javascript"></script>
+  
+  <script src="js/common/ui/ButtonCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/ListEditorButtonsCtrl.js" type="text/javascript"></script>
+  <script src="js/common/ui/MessageCtrl.js" type="text/javascript"></script>
+  
+  <script src="js/common/server/WebServiceProxy.js" type="text/javascript"></script>
+  
+  <script src="js/ui/DragItemHereListCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/GroupListCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/GroupsCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ROGroupsCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/constraintHelpers/CalendarAdapter.js" type="text/javascript"></script>
+  <script src="js/ui/constraintHelpers/ColumnValuePickList.js" type="text/javascript"></script>
+  <script src="js/ui/constraintHelpers/DBSearcher.js" type="text/javascript"></script>
+  <script src="js/ui/constraintHelpers/BooleanPicker.js" type="text/javascript"></script>
+  <script src="js/ui/ConstraintCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ColumnConstraintsCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ConstraintsCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/FormatListCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/GroupHeaderEditorCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/GroupItemEditorCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/DetailItemEditorCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ConstraintsEditorCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ColumnSorterEditorCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/AvailableItemsCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/FreeFormConstraintCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/TemplatesListCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/ColumnSorterCtrl.js" type="text/javascript"></script>
+  <script src="js/ui/stepsLayout.js" type="text/javascript"></script>
+  <script src="js/ui/WizPg0.js" type="text/javascript"></script>
+  <script src="js/ui/WizPg1.js" type="text/javascript"></script>
+  <script src="js/ui/WizPg2.js" type="text/javascript"></script>
+  <script src="js/ui/WizPg3.js" type="text/javascript"></script>
+  <script src="js/ui/WaqrWizard.js" type="text/javascript"></script>
+  <script src="js/ui/DBSearchDialog.js" type="text/javascript"></script>
+  <script src="js/ui/RepositoryBrowser.js" type="text/javascript"></script>
+  <script src="js/ui/WaqrRepositoryBrowser.js" type="text/javascript"></script>
+  <script src="js/ui/PaperFormatCtrl.js" type="text/javascript"></script>
+  
+  <script src="js/ui/DragNDrop/DragNDropUtil.js" type="text/javascript"></script>  
+  <script src="js/ui/DragNDrop/DragSource.js" type="text/javascript"></script>
+  <script src="js/ui/DragNDrop/GroupsDropTarget.js" type="text/javascript"></script>
+  <script src="js/ui/DragNDrop/DetailsDropTarget.js" type="text/javascript"></script>
+  <script src="js/ui/DragNDrop/FiltersDropTarget.js" type="text/javascript"></script>
+  
+  <script src="js/controller/ConstraintsController.js" type="text/javascript"></script>
+  <script src="js/controller/RepositoryBrowserController.js" type="text/javascript"></script>
+  <script src="js/controller/Controller.js" type="text/javascript"></script>
+  
+
+  <script type="text/javascript">
+    // check to see if we're an iframe inside of a page with Data Access. If not add the module.
+    if(!window.parent || !window.parent.pho.openDatasourceEditor){
+      document.write("<script language='javascript' src='../content/data-access/resources/gwt/DatasourceEditor.nocache.js'></"+"script>");
+    }
+  </script>
+
+  <script type="text/javascript">
+    var msgCtrl = new MessageCtrl();
+    /** the first few methods and vars are related to the data access dialog **/
+	var gTransport = null;
+	/** this global var is accessed by the controller to maintain enabled, disabled state **/
+	var dataAccessEditBtn = null;
+
+	function selectModel() {
+		gCtrlr.handleSelectBusinessView( gTransport.domainId, gTransport.modelId );
+        gCtrlr.showStep0();
+	}
+
+    var datasourceEditorCallback = {
+      onFinish : function(val, transport) {
+        gTransport = transport;
+        // remove the model from the cache if it exists
+        gCtrlr.mdModels.removeBView(gTransport.domainId, gTransport.modelId);
+        
+        postInitFunc = function() { setTimeout( 'selectModel()', 250 ) };
+        gCtrlr.getModel();
+      },
+      onError : function(val) {
+        alert('error:' + val);
+      },
+      onCancel : function() {
+      },
+      onReady : function() {
+      }
+    }
+
+    var modelDeleteCallback = {
+     onFinish : function(val) {
+         gCtrlr.getModel();
+         gTransport = null;
+     },
+     onError : function(val) {
+       alert('error:' + val);
+     },
+     onCancel : function() {
+     }
+    }
+    
+    var dataaccessAddBtnCallback = function() {
+        var actionFunct = null;
+        // check to see if we're an iframe inside of a page with Data Access. If not add the module.
+        if(window.parent && window.parent.pho.openDatasourceEditor){
+            actionFunct = window.parent.pho.openDatasourceEditor;
+        } else {
+            actionFunct = window.pho.openDatasourceEditor;
+        }
+        actionFunct(datasourceEditorCallback);
+    }
+
+    var dataaccessEditBtnCallback = function() {
+        
+        var actionFunct = null;
+        // check to see if we're an iframe inside of a page with Data Access. If not add the module.
+        if(window.parent && window.parent.pho.openEditDatasourceEditor){
+            actionFunct = window.parent.pho.openEditDatasourceEditor;
+        } else {
+            actionFunct = window.pho.openEditDatasourceEditor;
+        }
+        actionFunct(gCtrlr.modelId, gCtrlr.viewId, datasourceEditorCallback);
+    }
+    
+    var dataaccessDeleteBtnCallback = function() {
+        
+        var actionFunct = null;
+        // check to see if we're an iframe inside of a page with Data Access. If not add the module.
+        if(window.parent && window.parent.pho.openEditDatasourceEditor){
+            actionFunct = window.parent.pho.deleteModel;
+        } else {
+            actionFunct = window.pho.deleteModel;
+        }
+    
+    	var shouldDeleteModel = msgCtrl.confirm(Messages.getString("deleteModelWarningMessage"));
+    	if(shouldDeleteModel) {
+            actionFunct(gCtrlr.modelId, gCtrlr.viewId, modelDeleteCallback);
+    	}
+    	
+    }
+    
+    
+    /* gCtrlr is a global variable. Global variables are BAD. It should NEVER be used anywhere in WAQR
+    except in this html file and html fragments generated by XSLTs*/
+    var gCtrlr = null;
+    var gLogger = null;
+    var paramModelName = null;
+    var postInitFunc = null;
+
+    /* this function is called by the gwt code when initing, if the user has permission */
+	function initDataAccess(hasAccess) {
+		var daBtnContainer = document.getElementById( "dataaccessButton" );
+		if(hasAccess) {
+			/** Creating Add datasource button */
+			var dataAccessAddBtn = new ButtonCtrl( Messages.getString("dataaccessAddButtonText"), ButtonCtrl.LARGE, "dataaccessAddButton" );
+			dataAccessAddBtn.setOnClickCallback(dataaccessAddBtnCallback, null);
+
+		    /** Creating Edit datasource button */
+			dataAccessEditBtn = new ButtonCtrl( Messages.getString("dataaccessEditButtonText"), ButtonCtrl.LARGE, "dataaccessEditButton" );
+			dataAccessEditBtn.setOnClickCallback(dataaccessEditBtnCallback, null);
+			dataAccessEditBtn.setEnabled(false);
+			   
+			/** Creating Delete datasource button */
+			var dataAccessDeleteBtn = new ButtonCtrl( Messages.getString("dataaccessDeleteButtonText"), ButtonCtrl.LARGE, "dataaccessDeleteButton" );
+			dataAccessDeleteBtn.setOnClickCallback(dataaccessDeleteBtnCallback, null);
+
+			var table = document.createElement( "table" );
+			daBtnContainer.appendChild(table);
+			table.cellSpacing = "0";
+			table.cellPadding = "2";
+			table.border = "0";
+			var tbody = document.createElement( "tbody" );
+			table.appendChild( tbody );
+			var tr = document.createElement( "tr" );
+			tbody.appendChild( tr );
+			var td1 = document.createElement( "td" );
+			tr.appendChild( td1 );
+			var td2 = document.createElement( "td" );
+			tr.appendChild( td2 );
+			var td3 = document.createElement( "td" );
+			tr.appendChild( td3 );
+			td1.appendChild(dataAccessEditBtn.getRoot());
+			td2.appendChild(dataAccessAddBtn.getRoot());
+			td3.appendChild(dataAccessDeleteBtn.getRoot());
+		} else {
+			document.getElementById("viewsdiv").style.height = "113%";
+		}
+	}
+
+    
+    function loadWaqr()
+    {
+      var wiz = null;
+      var msgCtrl = new MessageCtrl();
+      gLogger = new Logger();
+      var url = document.location.href;
+      if( url.indexOf( '?' ) != -1 ) {
+        // we have parameters
+        parseUrlParams( url );
+      }
+      try
+      {
+        wiz = new WaqrWizard( msgCtrl );
+        var mdModels = new MDModels();
+        gCtrlr = new Controller( wiz, mdModels );
+        window.onresize=resizePg; // see stepsLayout.js->resizePg()
+        postInitFunc = function() { setTimeout( 'selectInitModel()', 250 ) };
+        
+      }
+      catch( e )
+      {
+        // uncomment to get things like stack trace and exact line number of problem
+        var str = Debug.getPropsAsString( e );
+        alert( str );
+      /*
+        var msg = (undefined == e.message) ? e.toString() : e.message;
+      */
+        msgCtrl.error( Messages.getString("waqrLoadFailed", e.message ) );
+      }
+    }
+    
+    function selectInitModel() {
+      var model = gCtrlr.mdModels.models[ paramModelName ];
+      if(model != null){
+        var viewName = findUrlParam( 'view', document.location.href );
+        if( viewName ) {
+            if( model.bViews[viewName] ) {
+                gCtrlr.handleSelectBusinessView( paramModelName, viewName );
+                gCtrlr.showStep1();
+                return;
+            } else {
+                // TODO need a nice message in here
+                gCtrlr.showStep0();
+            }
+            return;
+        }
+            for (var i in model.bViews)
+            {
+                viewName = model.bViews[i].viewId;
+                gCtrlr.handleSelectBusinessView( paramModelName, viewName );
+                gCtrlr.showStep1();
+                return;
+            }
+      }
+      gCtrlr.showStep0();
+    } 
+    
+    function parseUrlParams( url ) {
+      
+      paramModelName  = findUrlParam( 'model', url );
+
+    }
+    function findUrlParam( name, url ) {
+      var pos = url.indexOf( '?' );
+      var params = url.substr( pos );
+      pos = params.indexOf( '?'+name+'=' );
+      if( pos == -1 ) {
+        pos = params.indexOf( '&'+name+'=' );
+      }
+      if( pos != -1 ) {
+        var tmp = params.substr( pos + name.length + 2 );
+        if( tmp.indexOf( '&' ) != -1 ) {
+          tmp = tmp.substr( 0, tmp.indexOf( '&' ) );
+        }
+        tmp = unescape( tmp );
+        return tmp;
+      }
+      return null;
+    }
+    
+    /*
+    function go()
+    {
+      var div = document.getElementById( "groups_container" );
+      var item1 = document.getElementById( "1Id" );
+      var item3 = document.getElementById( "3Id" );
+      Debug.clearMarkers();
+      Debug.markElemOrigin( div );
+      Debug.markElemMax( div );
+      Debug.markElemScrollOrigin( item1 );
+      Debug.markElemScrollMax( item1 );
+      Debug.markElemScrollOrigin( item3 );
+      Debug.markElemScrollMax( item3 );
+    }
+    */
+        
+  </script>
+</head>
+
+<!-- smokin' -->
+<body onload="loadWaqr();">
+<div id="header">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td id="step1_div" onClick="gCtrlr.showStep0()" class="step_link">
+                    __Select_a_Data_Source
+        </td>
+                <td>
+                    <img id="img_between_1_2" src="images/steps_middle_mixed.gif" width="15" height="28"/>
+                </td>
+        <td id="step2_div" onClick="gCtrlr.showStep1()" class="step_link" >
+                    __Make Selections
+                </td>
+                <td>
+                    <img id="img_between_2_3" src="images/steps_middle_inactive.gif" width="15" height="28"/>
+                </td>
+        <td id="step3_div" onClick="gCtrlr.showStep2()" class="step_link" >
+                    __Customize Selections
+        </td>
+                <td>
+                    <img id="img_between_3_4" src="images/steps_middle_inactive.gif" width="15" height="28"/>
+                </td>
+        <td id="step4_div" onClick="gCtrlr.showStep3()" class="step_link">__Report Settings
+        </td>
+                <td>
+                    <img id="img_after_4" src="images/steps_endcap_inactive.png" width="15" height="28"/>
+                </td>
+            <td width="100%">&nbsp;</td>
+      </tr>
+    </table>
+</div>
+<!-- ======================================================
+   ==   BEGIN FOOTER CONTENT                           ==
+     ====================================================== -->
+<div id="footer">
+  <table width="100%;" border="0" align="right" cellpadding="0" cellspacing="0">
+    <tr>
+      <td id='busyContainer' style='width:30%;'>
+      </td>
+      <td valign="middle" id="waqrDeprecatedAlert" style="padding-right: 5px">
+        <table width="825px" style="background-color: #fffdd5; border-style: solid; border-color: #dcb114; border-width= 1px; font: normal .85em Tahoma, 'Trebuchet MS', Arial">
+          <tr>
+            <td valign="top">
+              <img src="images/warning.png"/>
+            </td>
+            <td>
+              Web Ad Hoc Query and Reporting has been replaced by Pentaho Interactive Reporting.<br/>
+	          It has been provided for your convenience since version 4.0 and will be completely removed with the upcoming Version 5.0.<br/>
+	          Please transition your current Ad Hoc Reports to Pentaho Interactive Reporting as the functionality will no longer be available with Version 5.0.
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="previewFormatPrompt" nowrap style="width:12ex;white-space:nowrap; font: normal .85em Tahoma, 'Trebuchet MS', Arial;" valign="middle"><!-- Preview As:&nbsp; --></td>
+      <td id="previewTypeContainer"></td>
+      <td id="previewContainer"></td>
+      <td><div style='width:30px'></div></td>
+      <td id="backContainer"></td>
+      <td id="nextContainer"></td>
+      <td><div style='width:30px'></div></td>
+      <td id="saveContainer"></td>
+      <td id="saveAsContainer"></td>
+      <td style='padding-right:15px;' id="cancelContainer"></td>
+    </tr>
+  </table>
+</div>
+<!-- ======================================================
+   ==   END FOOTER CONTENT                             ==
+     ====================================================== -->
+
+<!-- ======================================================
+   ==   BEGIN STEP ONE                                 ==
+     ====================================================== -->
+<div id="content0" class="wizard_content" style="display:none;">
+<table width="100%" id="middleContentTable" class="middleContentTable" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td id="selectModelTitle" class="content_header" height="5" valign="top">
+      __Select a Data Source
+    </td>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td height="5" id="step1DetailsTitle" colspan="4" class="content_header">
+    __Business Model Details
+    </td>
+  </tr>
+  <tr>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td valign="top" width="250">
+      <!-- ======================================================
+         ==   STEP ONE - AVAILABLE BUSINESS MODELS             ==
+         ====================================================== -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style="margin-bottom:5px;">
+        <tr>
+          <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+          <td id="availModelsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Available Business Models</td>
+          <td><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="container_content" valign="top">
+            <div class="container_content_scroll">              
+              <table border="0" cellspacing="0" cellpadding="0" style="font: normal .85em Tahoma, 'Trebuchet MS', Arial;">
+                <tr>
+                  <td valign="top" id="shim_availableBusinessViews" width="250">
+                    <div id="viewsdiv" style="overflow:auto; padding: 0px 0px 5px 0px; height:98%; width:100%;">
+                      __Loading Views...
+                    </div>
+                  </td>
+                </tr>
+              </table>              
+            </div>
+            <div align="right" id="dataaccessButton">
+	            <table border="0" cellspacing="0" cellpadding="0" style="font: normal .85em Tahoma, 'Trebuchet MS', Arial;">
+			        <tr>
+			          <td></td>
+			          <td></td>
+			        </tr>
+    	        </table>              
+	        </div>
+          </td>
+        </tr>
+      </table>
+      <!-- ======================================================
+         ==   STEP ONE   END AVAILABLE BUSNIESS VIEWS        ==
+         ====================================================== -->
+    </td>
+    <td width="15" valign="top">
+    <!-- ======================================================
+       ==   STEP ONE - IMAGE SETS MINHEIGHT FOR PAGE       ==
+       ====================================================== -->
+      <img width="1" height="1" id="pixelshim" src="images/spacer.png" />
+    </td>
+    <td valign="top" width="245">
+      <!-- ======================================================
+         ==  STEP ONE - BUSINESS VIEW DETAILS                ==
+         ====================================================== -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+        <tr>
+          <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+          <td id="businessViewTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Business View</td>
+          <td><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" id='categoriesContainer' class="container_content" valign="top">
+            <div class="categories" id="categoryList">
+              <!-- Page 0 Category List -->
+            </div>
+          </td>
+        </tr>
+        </table>
+      <!-- ======================================================
+         ==  STEP ONE - END BUSINESS VIEW DETAILS            ==
+         ====================================================== -->
+    </td>
+    <td width="15" valign="top">&nbsp;
+
+    </td>
+    <td valign="top">
+    <!-- ======================================================
+       ==   STEP ONE - DESCRIPTION                         ==
+       ====================================================== -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+          <tr>
+              <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+              <td id="step1Desc" rowspan="2" nowrap="nowrap" class="container_head_right1">__Description</td>
+              <td><img src="images/spacer.png" width="1" height="1" /></td>
+      </tr>
+      <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+          </tr>
+          <tr>
+              <td colspan="3" class="container_content" valign="top" id="descriptionContainer">
+          <div class="modelDescription" id='modelDescription'>&nbsp;</div>
+        </td>
+          </tr>
+        </table>
+    <!-- ======================================================
+       ==  STEP ONE - END DESCRIPTION                      ==
+       ====================================================== -->
+    </td>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+  </tr>
+</table>
+<!-- ======================================================
+   ==  STEP ONE - TEMPLATE SELECTION                   ==
+   ====================================================== -->
+<!-- TODO sbarkdull, when the templates are re-introduced, the class and id names
+if the main elements in this table need to be renamed. This includes renaming
+in stepsLayout.js (code that controls resizing) -->
+<table style="width:100%" id="middleContentTable2" class="middleContentTable2" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td id="defineTmpltTitle" class="content_header"  height="5" valign="top">
+      __Define a Template
+    </td>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td id="tmpltDetailsTitle" height="5" colspan="4" class="content_header" >
+    __Template Details
+    </td>
+  </tr>
+  <tr>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+    <td valign="top" width="250">
+      <!-- ======================================================
+         ==   STEP ONE - AVAILABLE TEMPLATES             ==
+         ====================================================== -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style="margin-bottom:5px;">
+        <tr>
+          <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+          <td id="availTmpltsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Available Templates</td>
+          <td><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" width="250" id="availableTemplatesContainer" class="container_content" valign="top">
+          </td>
+        </tr>
+      </table>
+      <!-- ======================================================
+         ==   STEP ONE   END TEMPLATES        ==
+         ====================================================== -->
+    </td>
+    <td width="15" valign="top">
+    <!-- ======================================================
+       ==   STEP ONE - IMAGE SETS MINHEIGHT FOR PAGE       ==
+       ====================================================== -->
+      <img width="1" height="1" id="pixelshim" src="images/spacer.png" />
+    </td>
+    <td valign="top" width="245">
+      <!-- ======================================================
+         ==  STEP ONE - BUSINESS VIEW DETAILS                ==
+         ====================================================== -->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+        <tr>
+          <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+          <td id="thumbnailTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Thumbnail</td>
+          <td><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" id='thumbnailContainer' class="container_content" valign="top">
+            <img id="thumbnailImg" style="display:none;width:235px;height:235px;"/>
+          </td>
+        </tr>
+        </table>
+      <!-- ======================================================
+         ==  STEP ONE - END BUSINESS VIEW DETAILS            ==
+         ====================================================== -->
+    </td>
+    <td width="15" valign="top">&nbsp;
+
+    </td>
+    <td valign="top">
+    <!-- ======================================================
+       ==   STEP ONE - DESCRIPTION                         ==
+       ====================================================== -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+          <tr>
+              <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+              <td id="step1Desc2" rowspan="2" nowrap="nowrap" class="container_head_right1">__Description</td>
+              <td><img src="images/spacer.png" width="1" height="1" /></td>
+      </tr>
+      <tr>
+          <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+          <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+          </tr>
+          <tr>
+              <td colspan="3" class="container_content" valign="top" id="templateDescriptionContainer">
+          <div class="templateDescription" id='templateDescription'>&nbsp;</div>
+        </td>
+          </tr>
+        </table>
+    <!-- ======================================================
+       ==  STEP ONE - END DESCRIPTION                      ==
+       ====================================================== -->
+    </td>
+    <td width="15" valign="top">&nbsp;
+    
+    </td>
+  </tr>
+<!-- ======================================================
+   ==  END STEP ONE - TEMPLATE SELECTION                   ==
+   ====================================================== -->
+</table>
+</div>
+<!-- ======================================================
+   ==  END STEP ONE                                    ==
+   ====================================================== -->
+  
+<!-- ======================================================
+   ==  BEGIN STEP TWO                                  ==
+   ====================================================== -->
+<div id="content1" class="wizard_content" style="display:none"> 
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="centerMaintable">
+      <tr>
+        <td valign="top">
+        <!-- ======================================================
+           ==  STEP TWO - AVAILABLE ITEMS                      ==
+           ====================================================== -->
+        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="step2AvailItemsTitle" width="30%" class="content_header">__Available Items</td>
+            <td class="container_head_right1" style="text-align:right;vertical-align:top;"><input type='checkbox' id="step2DistinctSelections"/>
+              <span id='distinctSelectionsLabel'>__Distinct Selections</span>
+            </td>
+          </tr>
+          <tr>
+            <td id="availableItemsTd" colspan="2" valign="top" class="container_outside">
+            <!--BEGIN SCROLLING CONTAINER FOR "AVAILABLE ITEMS" -->
+            <!--END SCROLLING CONTAINER FOR "AVAILABLE ITEMS" -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP TWO - END AVAILABLE ITEMS                  ==
+           ====================================================== -->
+      </td>
+        <td valign="top" width="345">
+        <!-- ======================================================
+           ==  STEP TWO - SELECTED ITEMS COLUMN                ==
+           ====================================================== -->
+        <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin: 0px 0px 0px 5px;" id="selected_items_table">
+          <tr>
+            <td width="5" style="padding: 0px 55px 5px 0px;">&nbsp;</td>
+            <td id="step2SelectedItemsTitle" width="100%" nowrap="nowrap" class="content_header" >Selected Items</td>
+          </tr>
+          <tr>
+            <td width="5" id="addGroupsBtnTd">
+            </td>
+            <td valign="top" style="padding: 5px 5px 0px 0px;" id="selecteditems_groups">
+              <!-- ======================================================
+                 ==  STEP TWO - SELECTED ITEMS [GROUPS]              ==
+                 ====================================================== -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" height="100%">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step2GroupsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Groups </td>
+                  <td class="container_head_middle1"></td>
+                  <td id="groupsListEditorTd" rowspan="2" class="container_head_right1">
+                    <!-- ListEditorButtonsCtrl -->
+                  </td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  </tr>
+                  <tr>
+                  <td colspan="5" id="groupsTd" class="container_content" height="100%" valign="top">
+                  </td>
+                </tr>
+                </table>
+              <!-- ======================================================
+                 ==  STEP TWO - END SELECTED ITEMS [GROUPS]          ==
+                 ====================================================== -->
+            </td>
+          </tr>
+          <tr>
+            <td width="5" id="addDetailsBtnTd">
+            </td>
+            <td valign="top" style="padding: 5px 5px 0px 0px;" id="selecteditems_details">
+              <!-- ======================================================
+                 ==  STEP TWO - SELECTED ITEMS [DETAILS]             ==
+                 ====================================================== -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" height="100%">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step2DetailsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Details </td>
+                  <td class="container_head_middle1"></td>
+                  <td id="detailsListEditorTd" rowspan="2" class="container_head_right1">
+                    <!-- ListEditorButtonsCtrl -->
+                  </td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                <tr>
+                  <td colspan="5" class="container_content" id="detailsTd" height="100%" valign="top">
+                  </td>
+                </tr>
+              </table>      
+              <!-- ======================================================
+                 ==  STEP TWO - END SELECTED ITEMS [DETAILS]         ==
+                 ====================================================== -->
+            </td>
+          </tr>
+          <tr>
+            <td id='addFiltersBtnTd' width="5">
+            </td>
+            <td valign="top" style="padding: 5px 5px 0px 0px;" id="selecteditems_filters">
+              <!-- ======================================================
+                 ==  STEP TWO - SELECTED ITEMS [FILTERS]             ==
+                 ====================================================== -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" height="100%">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step2FiltersTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Filters </td>
+                  <td class="container_head_middle1"></td>
+                  <td id='filtersListEditorTd' rowspan="2" class="container_head_right1">
+                    <!--  location to place the delete ButtonCtrl -->
+                  </td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                <tr>
+                  <td id="filtersTd" colspan="5" class="container_content" height="100%" valign="top">
+                  </td>
+                </tr>
+              </table>
+              <!-- ======================================================
+                 ==  STEP TWO - END SELECTED ITEMS [FILTERS]         ==
+                 ====================================================== -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP TWO - END SELECTED ITEMS COLUMN            ==
+           ====================================================== -->
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- ======================================================
+   ==  END STEP TWO                                    ==
+   ====================================================== -->
+   
+   
+<!-- ======================================================
+   ==  STEP THREE                                      ==
+   ====================================================== -->
+<div id="content2" class="wizard_content" style="display:none;"> 
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="step3_mainTable">
+      <tr>
+        <td style='vertical-align:top;'>
+        <!-- ======================================================
+           ==  STEP THREE  SELECTED ITEMS COLUMN               ==
+           ====================================================== -->
+        <table cellpadding="0" cellspacing="0" style="margin: 0px 0px 0px 5px;">
+          <tr>
+            <td id="step3SelectedItemsTitle" nowrap="nowrap" width="250" class="content_header">Selected Items</td>
+          </tr>
+          <tr>
+            <td valign="top" width="250" style="border-top: 1px solid #818181; padding: 5px 5px 5px 0px;">
+              <!-- ======================================================
+                 ==  STEP THREE  SELECTED ITEMS GROUPS               ==
+                 ====================================================== -->
+              <table width="250" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step3GroupsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Groups </td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                <tr>
+                  <td id="groups2Td" colspan="5" class="container_content">
+                  </td>
+                </tr>
+              </table>      
+              <!-- ======================================================
+                 ==  STEP THREE   END SELECTED ITEMS  GROUPS         ==
+                 ====================================================== -->
+            </td>
+          </tr>
+          <tr>
+              <td valign="top" style="padding: 5px 5px 5px 0px;">
+              <!-- ======================================================
+                 ==  STEP THREE - SELECTED ITEMS [DETAILS]           ==
+                 ====================================================== -->
+              <table width="250" cellspacing="0" cellpadding="0" class="container_inset_open">
+
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step3DetailsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Details </td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                <tr>
+                  <td id="details2Td" colspan="5" class="container_content">
+                  </td>
+                </tr>
+              </table>      
+              <!-- ======================================================
+                 ==  STEP THREE - END SELECTED ITEMS [DETAILS]       ==
+                 ====================================================== -->
+            </td>
+          </tr>
+          <tr>
+            <td valign="top" style="padding: 5px 5px 5px 0px;">
+              <!-- ======================================================
+                 ==  STEP THREE - SELECTED ITEMS [FILTERS]           ==
+                 ====================================================== -->
+              <table width="250" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step3FiltersTitle" rowspan="2" nowrap="nowrap" class="container_head_right1"> __Filters </td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                <tr>
+                  <td id="filters2Td" colspan="5" class="container_content">
+                  </td>
+                </tr>
+              </table>
+              <!-- ======================================================
+                 ==  STEP THREE - END SELECTED ITEMS [DETAILS]       ==
+                 ====================================================== -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP THREE - END SELECTED ITEMS COLUMN          ==
+           ====================================================== -->
+      </td>
+      <td style='width:15px;'><img src="images/spacer.png" width="15" height="1" /></td>
+      <td style='width:100%;vertical-align:top;text-align:left;' id="contentBlock_step3">
+        <table style='width:100%;height:100%;' cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style='vertical-align:top;'>
+        <!-- ======================================================
+           ==  STEP THREE - GROUP-HEADER-EDITOR GENERAL             ==
+           ====================================================== -->
+        <div id="groupHeaderEditorContainer" style="display:none;">
+          <table cellpadding="0" cellspacing="0" border="0px">
+            <tr>
+              <td id="step3GrpsGeneralTitle" class="content_header">__General</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;"/>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-HEADER-EDITOR LEVEL NAME          ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" id="levelname_box" class="container_inset_open" style='vertical-align:left;'>
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3GrpsLvlNameTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Level Name</td>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <!-- middle cell of previous row has rowspan = 2, no td needed -->
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="container_content" valign="top" align="left" id="levelname_cell">
+                      <input type="text" name="levelName" size="30" />
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-HEADER-EDITOR LEVEL NAME      ==
+                   ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-HEADER-EDITOR OPTIONS             ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" id="options_box" class="container_inset_open" style="margin-bottom:10px;">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3GrpOptionsTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Options</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="container_content" valign="top" height="75" id="optionsbox_cell">
+                    <div>             
+                      <table border="0" cellspacing="0" cellpadding="0" style="font: normal .85em Tahoma, 'Trebuchet MS', Arial;">
+                        <tr>
+                          <td>
+                            <input type="checkbox" id="repeatGroupHeader" value="yes" />
+                          </td>
+                          <td id="step3RepeatGrpHdr" width="100%" style="padding:5px 0px 5px 0px;">
+                            __Repeat Group Header
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" id="showGroupSummaryCB" value="yes" />
+                          </td>
+                          <td id="step3ShowGroupSummary" width="100%" style="padding:5px 0px 5px 0px;">
+                            ___Show Group Summary
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan='2' id="step3GroupTotalLabel" width="100%" style="padding:5px 0px 5px 0px;">
+                            ___Group Total Label
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan='2'width="100%" style="padding:5px 0px 5px 0px;">
+                            <input type="text" id="groupTotalLabelText" size="30" />
+                          </td>
+                        </tr> 
+
+                      </table>              
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-HEADER-EDITOR OPTIONS         ==
+                   ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td id="step3GrpsFormatTitle" width="250" nowrap="nowrap" class="content_header">__Formatting</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;">
+            </td>
+            <tr>
+              <td>                   
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-HEADER-EDITOR PAGE BREAK          ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" id="pagebreak_box" class="container_inset_open">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3PgBrkTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Page Break</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="groupHeaderPageBreakContainer" colspan="3" class="container_content" valign="top">
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-HEADER-EDITOR PAGE BREAK      ==
+                   ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-HEADER-EDITOR ALIGNMENT           ==
+                   ====================================================== -->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" align="left">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3GrpAlignTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Alignment</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="groupHeaderAlignmentContainer" colspan="3" class="container_content" valign="top">
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-HEADER-EDITOR ALIGNMENT       ==
+                   ====================================================== -->
+              </td>
+            </tr>
+          </table>
+              <!-- ======================================================
+                 ==  STEP THREE - END GROUP-HEADER-EDITOR GENERAL         ==
+                 ====================================================== -->
+        </div>
+        <!-- ======================================================
+           ==  STEP THREE - END GROUP-HEADER-EDITOR                 ==
+           ====================================================== -->
+           
+           
+        <!-- ======================================================
+           ==  STEP THREE - GROUP-ITEM-EDITOR                     ==
+           ====================================================== -->
+        <div id="groupItemEditorContainer" style="display:none;">
+          <!-- ======================================================
+             ==  STEP THREE - GROUP-ITEM-EDITOR FORMATTING          ==
+             ====================================================== -->
+          <table cellpadding="0" cellspacing="0" border="0px">
+            <tr>
+              <td id="step3GrpsFormatTitle2" nowrap="nowrap" class="content_header">__Formatting</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;"/>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-ITEM-EDITOR NUMERIC             ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" id="numericBlock" class="container_inset_open" style="vertical-align:left;">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="groupsItemEditorFormatListLabel" rowspan="2" nowrap="nowrap" class="container_head_right1">__Format</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="container_content" valign="top" height="150">
+                    <div>             
+                      <table border="0" cellspacing="0" cellpadding="0" style="font: normal .85em Tahoma, 'Trebuchet MS', Arial;">
+                        <tr>
+                          <td id='groupsItemEditorNumericListContainer'>
+                          </td>
+                        </tr>
+                      </table>              
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-ITEM-EDITOR NUMERIC         ==
+                   ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - GROUP-ITEM-EDITOR ALIGNMENT           ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style="width:100%">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3GrpAlignTitle2" rowspan="2" nowrap="nowrap" class="container_head_right1">__Alignment</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="groupItemAlignmentContainer" colspan="3" class="container_content" valign="top" id="groupsSubAlignment">                    
+
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END GROUP-ITEM-EDITOR ALIGNMENT       ==
+                   ====================================================== -->
+              </td>
+            </tr>
+          </table>
+          <!-- ======================================================
+             ==  STEP THREE - END GROUP-ITEM-EDITOR FORMATTING      ==
+             ====================================================== -->
+        </div>
+        <!-- ======================================================
+           ==  STEP THREE - END GROUP-ITEM-EDITOR                 ==
+           ====================================================== -->
+           
+        <!-- ======================================================
+           ==  STEP THREE - DETAILS                            ==
+           ====================================================== -->
+        <div id="detailEditorContainer" style="display:none;">
+        
+
+          <table cellpadding="0" cellspacing="0" border="0px">
+            <tr>
+              <td id="step3DetailsFormatTitle" nowrap="nowrap" class="content_header">__Formatting</td>
+            </tr>
+            <tr>
+              <td style="vertical-align:top;border-top: 1px solid #818181; padding: 5px 0px 0px 0px;"/>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - DETAILS FORMATTING [NUMERIC]       ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" id="numericBlock_details" class="container_inset_open" align="left" style="width:100%;">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="detailsItemEditorFormatListLabel" rowspan="2" nowrap="nowrap" class="container_head_right1">__Format</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="container_content" valign="top" style='height:150px;'>
+                    <div>             
+                      <table height="100%" border="0" cellspacing="0" cellpadding="0" style="font: normal .85em Tahoma, 'Trebuchet MS', Arial;">
+                        <tr>
+                          <td id="detailItemEditorFormatListContainer">
+                          </td>
+                        </tr>
+                      </table>              
+                    </div>
+                    </td>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                   ==  STEP THREE - END DETAILS FORMATTING [NUMERIC]   ==
+                   ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - DETAILS FORMATTING [ALIGNMENT]     ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style='width:100%;' id="details_alignmentTable">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3DetailsAlignTitle" rowspan="2" class="container_head_right1">__Alignment</td>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2" id="details_alignment_adjustment"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="detailsAlignmentContainer" colspan="3" class="container_content" valign="top" style='width:100%;height:100%;'/>
+                  </tr>
+                </table>
+                <!-- ======================================================
+                 ==  STEP THREE - END DETAILS FORMATTING [ALIGNMENT] ==
+                 ====================================================== -->
+              </td>
+            </tr>
+            <tr>
+              <td id="step3CalcsTitle" class="content_header" id="details_calculationHeader">__Calculation</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;"/>
+            </tr>
+            <tr>
+              <td>
+                <!-- ======================================================
+                   ==  STEP THREE - DETAILS CALCULATION [USE FUNCTION] ==
+                   ====================================================== -->
+                <table border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style='width:100%;' id="details_calculationBlock">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3DetailsUseCalcFunc" rowspan="2" nowrap="nowrap" class="container_head_right1">__Use Function</td>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2" id="details_usefunction_adjustment"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="container_content" id="aggrFuncListCont" style='height:150px;'/>
+                  </tr>
+                </table>
+                <!-- ==========================================================
+                   ==  STEP THREE - END DETAILS CALCULATION [USE FUNCTION] ==
+                   ========================================================== -->
+              </td>
+            </tr>
+          </table>
+
+          <!-- =======================================================
+             ==  STEP THREE - END DETAILS FORMATTING & CALCULATION==
+             ======================================================= -->
+        </div>
+        <!-- ======================================================
+           ==  STEP THREE - END DETAILS                        ==
+           ====================================================== -->
+            </td>
+            <td style='width:15px;'><img src="images/spacer.png" width="15" height="1" /></td>
+            <td style='vertical-align:top;'>
+        <!-- ======================================================
+           ==  STEP THREE - CONSTRAINTS                ==
+           ====================================================== -->
+        <div id="constraintsEditorContainer" style="display:none;vertical-align:top;width:100%;">
+          <table cellpadding="0" cellspacing="0" style="margin: 0px 0px 0px 5px;width:100%;">
+            <tr>
+              <td id="step3ConstraintsTitle" nowrap="nowrap" class="content_header">__Constraints</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;">
+                <!-- CONSTRAINTS -->
+                <table id="constraintsBlock_constraintsTable" width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3ConstraintCurrSettings" rowspan="2" nowrap="nowrap" class="container_head_right1">__Current Settings</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="constraintsTd" colspan="3" class="container_content" valign="top">
+                    </td>
+                  </tr>
+                </table>
+                <!-- END CONSTRIANTS -->
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- ======================================================
+           ==  STEP THREE - END CONSTRAINTS                        ==
+           ====================================================== -->
+           <!-- 
+        <img src="images/spacer.png" width="685" height="1" id="phase1_shim" border="0" />
+         -->
+             
+        <!-- ======================================================
+           ==  STEP THREE - COLUMN SORT TABLE                ==
+           ====================================================== -->
+        <div id="columnSorterEditorContainer" style="display:none;width:100%;">
+          <table cellpadding="0" cellspacing="0" style="margin: 0px 0px 0px 5px;width:100%;">
+            <tr>
+              <td id="step3ColumnSorterEditorTitle" nowrap="nowrap" class="content_header" >__Sort Columns</td>
+            </tr>
+            <tr>
+              <td valign="top" style="border-top: 1px solid #818181; padding: 5px 0px 5px 0px;">
+                <table id="constraintsBlock_constraintsTable" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" style='width:100%;'>
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="step3ColumnSorterTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Sort X Items</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id="columnSorterTd" colspan="3" class="container_content" valign="top">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- ======================================================
+           ==  STEP THREE - END COLUMN SORT TABLE                        ==
+           ====================================================== -->
+            </td>
+          </tr>
+        </table>
+           
+           
+           <!-- 
+        <img src="images/spacer.png" width="685" height="1" id="phase1_shim" border="0" />
+         -->
+        
+        
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- ======================================================
+   ==  END STEP THREE                                  ==
+   ====================================================== -->
+
+   
+<!-- ======================================================
+   ==  STEP FOUR                                       ==
+   ====================================================== -->
+<div id="content3" class="wizard_content" style="display:none;"> 
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top" id="content3_cell">
+        <!-- ======================================================
+           ==  STEP FOUR - GENERAL                             ==
+           ====================================================== -->
+        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="step4GeneralTitle" width="100%" class="content_header">__General</td>
+          </tr>
+          <tr>
+            <td valign="top" style="border-top: 1px solid #818181; padding:0px 0px 5px 0px;" id="general_row" width="100%">
+              <!-- ======================================================
+                 ==  STEP FOUR - GENERAL [ORIENTATION]               ==
+                 ====================================================== -->
+              <table width="250" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" align="left">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4OrientationTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Orientation</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content" style='height:128px;vertical-align:top;' id="orientation_cell">
+
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END GENERAL [ORIENTATION]           ==
+                 ====================================================== -->
+            <!-- SPACER -->
+              <table border="0" cellspacing="0" cellpadding="0" align="left">
+                <tr>
+                  <td width="15"><img src="images/spacer.png" width="15" height="1" /></td>
+                </tr>
+                </table>      
+            <!-- END SPACER --> 
+              <!-- ======================================================
+                 ==  STEP FOUR - GENERAL [PAPER]                     ==
+                 ====================================================== -->
+              <table width="250" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" align="left">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4PaperTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Paper</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td id='paperTypeRadioContainer' colspan="5" class="container_content" style='height:128px;vertical-align:top;' >
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END GENERAL [PAPER]                 ==
+                 ====================================================== -->
+            <!-- SPACER -->
+              <table border="0" cellspacing="0" cellpadding="0" align="left">
+                <tr>
+                  <td width="15"><img src="images/spacer.png" width="15" height="1" /></td>
+                </tr>
+                </table>      
+            <!-- END SPACER --> 
+              <!-- ======================================================
+                 ==  STEP FOUR - GENERAL [REPORT DESCRIPTION]        ==
+                 ====================================================== -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" id="general_report_table">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4ReportDescTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Report Description</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content">
+                    <textarea id='reportDescription' rows='7'></textarea>
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END GENERAL [REPORT DESCRIPTION]    ==
+                 ====================================================== -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP FOUR - END GENERAL                         ==
+           ====================================================== -->
+           
+           
+           
+        <!-- ======================================================
+           ==  STEP FOUR - HEADER                              ==
+           ====================================================== -->
+        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="step4HdrTitle" width="100%" class="content_header">__Header</td>
+          </tr>
+          <tr>
+            <td valign="top" style="border-top: 1px solid #818181; padding:0px 0px 5px 0px;">
+              <!-- ======================================================
+                 ==  STEP FOUR - HEADER [REPORT]                     ==
+                 ====================================================== -->
+              <table width="50%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" align="left" id="header_report_table">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4ReportTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Report</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content" id="shim_header_report">
+                    <textarea id='reportHeader' rows='7'></textarea>
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END HEADER [REPORT]                 ==
+                 ====================================================== -->
+            <!-- SPACER -->
+              <table border="0" cellspacing="0" cellpadding="0" align="left">
+                <tr>
+                  <td width="15"><img src="images/spacer.png" width="15" height="1" /></td>
+                </tr>
+                </table>      
+            <!-- END SPACER --> 
+              <!-- ======================================================
+                 ==  STEP FOUR - HEADER [PAGE]                       ==
+                 ====================================================== -->
+              <table width="50%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" id="header_page_table">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4PgTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Page</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content" id="shim_header_page">
+                    <textarea id='pageHeader' rows='7'></textarea>
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END HEADER [PAGE]                   ==
+                 ====================================================== -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP FOUR - END HEADER                          ==
+           ====================================================== -->
+           
+           
+           
+        <!-- ======================================================
+           ==  STEP FOUR - FOOTER                              ==
+           ====================================================== -->
+        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="step4FooterTitle" width="100%" class="content_header" >__Footer</td>
+          </tr>
+          <tr>
+            <td valign="top" style="border-top: 1px solid #818181; padding:0px 0px 5px 0px;">
+              <!-- ======================================================
+                 ==  STEP FOUR - FOOTER [REPORT]                     ==
+                 ====================================================== -->
+              <table width="50%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" align="left" id="footer_report_table">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4FooterRptTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">Report</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content" id="shim_footer_report">
+                    <textarea id='reportFooter' rows='7'></textarea>
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END FOOTER [REPORT]                 ==
+                 ====================================================== -->
+            <!-- SPACER -->
+              <table border="0" cellspacing="0" cellpadding="0" align="left">
+                <tr>
+                  <td width="15"><img src="images/spacer.png" width="15" height="1" /></td>
+                </tr>
+                </table>      
+            <!-- END SPACER --> 
+              <!-- ======================================================
+                 ==  STEP FOUR - FOOTER [PAGE]                       ==
+                 ====================================================== -->
+              <table width="50%" border="0" cellspacing="0" cellpadding="0" class="container_inset_open" id="footer_page_table">
+                <tr>
+                  <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                  <td id="step4FooterPgTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Page</td>
+                  <td class="container_head_middle1"></td>
+                  <td><img src="images/spacer.png" width="1" height="1" /></td>
+                </tr>
+                <tr>
+                  <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                  <td class="container_head_middle2"><img src="images/spacer.png" width="1" height="10" /></td>
+                  <td class="container_head_right2"><img src="images/spacer.png" width="5" height="10" /></td>
+                </tr>
+                  <tr>
+                  <td colspan="5" class="container_content" id="shim_footer_page">
+                    <textarea id='pageFooter' rows='7'></textarea>
+                  </td>
+                </tr>
+                </table>      
+              <!-- ======================================================
+                 ==  STEP FOUR - END FOOTER [PAGE]                   ==
+                 ====================================================== -->
+            </td>
+          </tr>
+        </table>
+        <!-- ======================================================
+           ==  STEP FOUR - FOOTER                              ==
+           ====================================================== -->
+        <img src="images/spacer.png" width="1" height="1" id="widthShim"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- ======================================================
+   ==  END STEP FOUR                                   ==
+   ====================================================== -->
+   
+ <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+
+<div id="browser.modalDiv" class="browser">
+  <!-- ======================================================
+     ==  SAVEAS DIALOG                                   ==
+     ====================================================== -->
+  <div id="browser.saveasDialog" style="display:none; position:absolute; top:100px; left:200px; height:25px;">
+    <table border="0" cellspacing="0" cellpadding="0" class="popupDialog_table">
+      <tr>
+        <td class="popupDialog_header">
+          <div id="browser.titleBar" class="popupDialogTitleBar" onmouseover="this.onmousedown=Dialog.dragIsDown;" ondragstart="return false;" onselectstart="return false;"></div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding: 15px;">
+          <table style="width:40em;height:100%;" border="0" cellspacing="2px" cellpadding="2px">
+            <tr>
+              <td id="saveDlgSaveAsPrompt" style='width:25%'>__Save As:</td>
+              <td style='width:75%'>
+                <!-- The div tag is unnecessary, except that it fixes a defect in Firefox where the cursor doesn't show.
+                 see: http://extjs.com/forum/showthread.php?t=1519
+                 in addition to adding the div tag, the input element must have its width and height set to 
+                 something less than or equal to 99%. See the style sheet for the width and height -->
+                <div style='overflow-x:auto;overflow-y:auto;'>
+                  <input type="text" id="browser.saveAsNameInputText" tabindex='0' name="textfield" class="browserSaveAsText"/>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td id="saveDlgWherePrompt">__Where:</td>
+              <td>
+                <table style='width:100%;' border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td style="width:100%;padding-right:5px;" id="browser.comboContainer"></td>
+                    <td><img id='browser.upImg' src="images/up.png" alt="up"/></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td id="saveDlgSelectSltnTitle" colspan='2'>Select a Solution</td>
+            </tr>
+            <tr>
+              <td id="browser.solutionFolderListTd" height="100%" colspan='2'>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" colspan='2'>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+                  <tr>
+                    <td class="container_head_left1"><img src="images/spacer.png" width="1" height="1" /></td>
+                    <td id="saveDlgOutputTypeTitle" rowspan="2" nowrap="nowrap" class="container_head_right1">__Output Type</td>
+                    <td><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td class="container_head_left2"><img src="images/spacer.png" width="5" height="10" /></td>
+                    <td class="container_head_right2"><img src="images/spacer.png" width="1" height="1" /></td>
+                  </tr>
+                  <tr>
+                    <td id='browser.outputTypeContainer' colspan="3" class="container_content" height="100%" valign="top">
+                      <table style='width:50%;' border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td>
+                            <input type='checkbox' value='html' id='browser.typeHtmlCB'/>&nbsp;HTML
+                          </td>
+                          <td>
+                            <input type='checkbox' value='xls' id='browser.typeXlsCB'/>&nbsp;Excel
+                          </td>
+                          <td>
+                            <input type='checkbox' value='pdf' id='browser.typePdfCB'/>&nbsp;PDF
+                          </td>
+                          <td>
+                            <input type='checkbox' value='csv' id='browser.typeCsvCB'/>&nbsp;CSV
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="border-top: 1px solid #818181; background-color: #ffffff;">
+          <table border="0" cellpadding="0" cellspacing="0" align="right">
+            <tr>
+              <td id="browser.saveBtnContainer" width="75">
+              </td>
+              <td id="browser.cancelBtnContainer" width="85">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- ======================================================
+     ==  END SAVEAS DIALOG                               ==
+     ====================================================== -->
+ </div>
+ <div id="searchDialog.modalDiv" style="position:absolute;top:0px;left:0px;background:url(images/spacer.png);">
+  <!-- ======================================================
+     ==  SEARCH DIALOG                                   ==
+     ====================================================== -->
+  <div id="searchDialog.searchDialog" style="display:none;position:absolute;top:100px;left:200px;height:25px;">
+    <table border="0" cellspacing="0" cellpadding="0" class="popupDialog_table">
+      <tr>
+        <td class="popupDialog_header">
+          <div id="searchDialog.titleBar" class="popupDialogTitleBar" onmouseover="this.onmousedown=Dialog.dragIsDown;" ondragstart="return false;" onselectstart="return false;"></div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding: 15px;">
+          <table width="100%" height="100%" border="0" cellspacing="2" cellpadding="2">
+            <tr>
+              <td>
+                <input id="searchDialog.searchInputText" name="textfield" style="border: 1px solid #818181;" type="text" size="60" />
+              </td>
+              <td id='searchDialog.searchBtnContainer'>
+              </td>
+            </tr>
+            <tr>
+              <td id="searchDialog.resultListContainer" colspan="2" align="left">
+                <!-- ======================================================
+                   ==  SEARCH DETAILS HEADER                           ==
+                   ====================================================== -->
+                <div class="searchDialog_resultsHeader">
+                  <table cellpadding="0" cellspacing="0" border="0" id="searchDialog_header" class="searchDialog_headerTable">
+                    <tr>
+                      <td id="srchDlgResultsTitle" class="searchDialog_resultsHeaderCell_left">
+                        __Search Results
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <!-- =============================================================
+                   ==  SEARCH DETAILS CONTENT SCROLLING inserted here w/DHTML ==
+                   ============================================================= -->
+              </td>
+            </tr>
+          </table>
+        </td>
+        </tr>
+        <tr>
+        <td style="border-top: 1px solid #818181; background-color: #ffffff;">
+          <table border="0" cellpadding="0" cellspacing="0" align="right">
+            <tr>
+              <td id='searchDialog.busyContainer' style='width:100%;'></td>
+              <td width="75" id="searchDialog.okBtnContainer"></td>
+              <td><div style='width:30px'></div></td>
+              <td width="85" id="searchDialog.cancelBtnContainer"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!-- ======================================================
+     ==  END SEARCH DIALOG                               ==
+     ====================================================== -->
+</div>
+
+    <form id="previewForm" name="previewForm" action="../AdhocWebService" target="preview" method="post" accept-charset="UTF-8">
+    <input type="hidden" name="reportXml" value=""/>
+    <input type="hidden" name="outputType" value=""/>
+    <input type="hidden" name="forceAttachment" value=""/>
+    <input type="hidden" name="templatePath" value=""/>
+    <input type="hidden" name="ajax" value="true"/>
+    <input type="hidden" name="component" value="generatePreview"/>
+    </form>
+    <script language="javascript">
+    
+    // check to see if we're an iframe inside of a page with Data Access. If not add the module.
+    if(window.parent && window.parent.pho.openDatasourceEditor){
+        initDataAccess(window.parent.dataAccessAvailable);
+    }
+    </script>
+  </body>
+</html>
