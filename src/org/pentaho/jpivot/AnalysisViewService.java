@@ -20,6 +20,7 @@ package org.pentaho.jpivot;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +59,6 @@ import org.pentaho.platform.api.engine.ISolutionEngine;
 import org.pentaho.platform.api.engine.ObjectFactoryException;
 import org.pentaho.platform.api.engine.PentahoAccessControlException;
 import org.pentaho.platform.api.engine.PentahoSystemException;
-import org.pentaho.platform.api.repository.ISolutionRepository;
 import org.pentaho.platform.api.util.XmlParseException;
 import org.pentaho.platform.engine.core.output.SimpleOutputHandler;
 import org.pentaho.platform.engine.core.solution.ActionInfo;
@@ -380,29 +380,6 @@ public class AnalysisViewService extends ServletBase {
   
       context = solutionEngine.execute(xaction, xactionFilename, Messages.getInstance().getString("BaseTest.DEBUG_JUNIT_TEST"), false, true, instanceId, false, parameterProviders, outputHandler, null, urlFactory, messages ); //$NON-NLS-1$
   
-//      if( context != null && context.getStatus() == IRuntimeContext.RUNTIME_STATUS_SUCCESS ) {
-//        return context;
-//      } else {
-//        return null;
-//      }
-      
-//      ISolutionRepository repository = PentahoSystem.get(ISolutionRepository.class, session);
-//      String baseUrl = PentahoSystem.getApplicationContext().getSolutionPath(""); //$NON-NLS-1$
-//      int xactionSaveStatus = repository.publish(baseUrl, path, xactionFilename, xaction.getBytes(), overwrite);
-
-      // String msg = WebServiceUtil.getStatusXml(Messages.getInstance().getString("AnalysisViewService.USER_VIEW_SAVED")); //$NON-NLS-1$
-
-//      if (xactionSaveStatus == ISolutionRepository.FILE_ADD_SUCCESSFUL) {
-//        // WebServiceUtil.writeString(response.getOutputStream(), msg,
-//        // wrapWithSoap);
-//        response.sendRedirect("ViewAction?solution=" + solutionName + "&path=" + solutionPath + "&action=" + xactionFilename); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-//      } else {
-//        //
-//        // WebServiceUtil.writeString(response.getOutputStream(),
-//        // WebServiceUtil.getErrorXml("XAction not created"), false);
-//        //d
-//
-//      }
     } catch (Exception e) {
       e.printStackTrace(response.getWriter());
       
@@ -454,18 +431,16 @@ public class AnalysisViewService extends ServletBase {
     InputStream is = null;
 
     try {
-      ISolutionRepository repository = PentahoSystem.get(ISolutionRepository.class, session);
-      if (repository.resourceExists(analysisViewTemplate, ISolutionRepository.ACTION_EXECUTE)) {
-        IActionSequenceResource resource = new ActionSequenceResource("", IActionSequenceResource.SOLUTION_FILE_RESOURCE, "", //$NON-NLS-1$ //$NON-NLS-2$
-            analysisViewTemplate);
-        is = resource.getInputStream(ISolutionRepository.ACTION_EXECUTE, null);
+      File f = new File(PentahoSystem.getApplicationContext().getSolutionPath(analysisViewTemplate));
+      if (f.exists()) {
+        is = new FileInputStream(f);
         SAXReader reader = new SAXReader();
         Document doc = reader.read(is);
         return new ActionSequenceDocument(doc);
       } else {
         throw new PentahoSystemException(Messages.getInstance().getString("AnalysisViewService.ERROR_0009_TEMPLATE_DOES_NOT_EXIST", analysisViewTemplate)); //$NON-NLS-1$
       }
-    } catch (DocumentException e) {
+    } catch (Exception e) {
       throw new PentahoSystemException(Messages.getInstance().getString("AnalysisViewService.ERROR_0010_TEMPLATE_DOES_NOT_PARSE", analysisViewTemplate), e); //$NON-NLS-1$
     } finally {
       try {
