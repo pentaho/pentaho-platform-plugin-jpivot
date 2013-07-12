@@ -31,14 +31,12 @@ public final class PivotError_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   private static java.util.List _jspx_dependants;
 
-  private org.apache.AnnotationProcessor _jsp_annotationprocessor;
 
   public Object getDependants() {
     return _jspx_dependants;
   }
 
   public void _jspInit() {
-    _jsp_annotationprocessor = (org.apache.AnnotationProcessor) getServletConfig().getServletContext().getAttribute(org.apache.AnnotationProcessor.class.getName());
   }
 
   public void _jspDestroy() {
@@ -48,9 +46,6 @@ public final class PivotError_jsp extends org.apache.jasper.runtime.HttpJspBase
         throws java.io.IOException, ServletException {
 
     PageContext pageContext = null;
-    HttpSession session = null;
-    ServletContext application = null;
-    ServletConfig config = null;
     JspWriter out = null;
     Object page = this;
     JspWriter _jspx_out = null;
@@ -62,9 +57,6 @@ public final class PivotError_jsp extends org.apache.jasper.runtime.HttpJspBase
       pageContext = _jspxFactory.getPageContext(this, request, response,
                                                             null, true, 8192, true);
       _jspx_page_context = pageContext;
-      application = pageContext.getServletContext();
-      config = pageContext.getServletConfig();
-      session = pageContext.getSession();
       out = pageContext.getOut();
       _jspx_out = out;
 

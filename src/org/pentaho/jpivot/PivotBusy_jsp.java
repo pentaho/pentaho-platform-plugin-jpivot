@@ -29,12 +29,11 @@ public final class PivotBusy_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
 
-  private static java.util.List _jspx_dependants;
+  private static java.util.List _jspx_dependants = null;
 
   private org.apache.jasper.runtime.TagHandlerPool _005fjspx_005ftagPool_005fc_005fout_0026_005fvalue_005fnobody;
 
 //  private javax.el.ExpressionFactory _el_expressionfactory;
-  private org.apache.AnnotationProcessor _jsp_annotationprocessor;
 
   public Object getDependants() {
     return _jspx_dependants;
@@ -43,7 +42,6 @@ public final class PivotBusy_jsp extends org.apache.jasper.runtime.HttpJspBase
   public void _jspInit() {
     _005fjspx_005ftagPool_005fc_005fout_0026_005fvalue_005fnobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
 //    _el_expressionfactory = _jspxFactory.getJspApplicationContext(getServletConfig().getServletContext()).getExpressionFactory();
-    _jsp_annotationprocessor = (org.apache.AnnotationProcessor) getServletConfig().getServletContext().getAttribute(org.apache.AnnotationProcessor.class.getName());
   }
 
   public void _jspDestroy() {
@@ -53,13 +51,9 @@ public final class PivotBusy_jsp extends org.apache.jasper.runtime.HttpJspBase
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
         throws java.io.IOException, ServletException {
 
-    PageContext pageContext = null;
-    HttpSession session = null;
-    ServletContext application = null;
-    ServletConfig config = null;
-    JspWriter out = null;
-    Object page = this;
-    JspWriter _jspx_out = null;
+    PageContext pageContext;
+      JspWriter out;
+      JspWriter _jspx_out = null;
     PageContext _jspx_page_context = null;
 
 
@@ -68,9 +62,6 @@ public final class PivotBusy_jsp extends org.apache.jasper.runtime.HttpJspBase
       pageContext = _jspxFactory.getPageContext(this, request, response,
                                                             null, true, 8192, true);
       _jspx_page_context = pageContext;
-      application = pageContext.getServletContext();
-      config = pageContext.getServletConfig();
-      session = pageContext.getSession();
       out = pageContext.getOut();
       _jspx_out = out;
 
