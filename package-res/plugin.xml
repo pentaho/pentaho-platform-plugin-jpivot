@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin title="jpivot" loader="DEFAULT">
-
+  
   <static-paths>
     <static-path url="/jpivot/jpivot" localFolder="jpivot"/>
     <static-path url="/jpivot/wcf" localFolder="wcf"/>
@@ -9,7 +9,9 @@
   
   <!-- Menu entry -->
   <menu-items/>
-  
+
+    <!-- uncomment the overlays element below to enable jpivot features in PUC -->
+    <!--
   <overlays>
     <overlay id="launch" resourcebundle="system/jpivot/resources/messages/messages.properties">
 		<button 
@@ -27,30 +29,30 @@
 			<menuitem id="adhocrep" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" />		
 		</menubar>
     </overlay>    		
-	
-</overlays>  
-  
-  	<content-types>
-		<content-type type="xjpivot" mime-type="text/html">
-        	<title>JPivot View</title>
-        	<description></description>
-	        <!-- <icon-url>api/repos/xwaqr/resources/images/adhoc-icon-small.png</icon-url> -->
-            <meta-provider>org.pentaho.platform.engine.services.solution.ActionSequenceFileInfo</meta-provider>
-	        <operations>
-    		    	<operation>
-    				<id>RUN</id>
-       			</operation>
-	    	    	<operation>
-	       			<id>NEWWINDOW</id>
-	       		</operation>        		
-	        	<operation>
-    	    		<id>EDIT</id>
-            		<perspective>editor</perspective>
-        		</operation>
-	        </operations>
-    	</content-type>
+</overlays>
+     -->
 
-	</content-types>
-  	<content-generator id="xjpivot.editor" type="xjpivot.editor" class="org.pentaho.platform.web.http.ActionSequenceContentGenerator"/>
-  
+    <content-types>
+      <content-type type="xjpivot" mime-type="text/html">
+        <title>JPivot View</title>
+        <description></description>
+	<!-- <icon-url>api/repos/xwaqr/resources/images/adhoc-icon-small.png</icon-url> -->
+        <meta-provider>org.pentaho.platform.engine.services.solution.ActionSequenceFileInfo</meta-provider>
+	<operations>
+    	  <operation>
+    	    <id>RUN</id>
+       	  </operation>
+	  <operation>
+	    <id>NEWWINDOW</id>
+	  </operation>        		
+	  <operation>
+    	    <id>EDIT</id>
+            <perspective>editor</perspective>
+          </operation>
+	</operations>
+      </content-type>
+
+    </content-types>
+    <content-generator id="xjpivot.editor" type="xjpivot.editor" class="org.pentaho.platform.web.http.ActionSequenceContentGenerator"/>
+    
 </plugin>
