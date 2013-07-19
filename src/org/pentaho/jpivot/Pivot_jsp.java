@@ -73,9 +73,13 @@ public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
 
     private static final ResourceBundle messages = ResourceBundle.getBundle("org.pentaho.jpivot.messages");
     private static final String deprecationWarningMessage = messages.getString("deprecationWarning");
-    private boolean writeDeprecationWarning = true;
+    private static final String SETTINGS_FILE = "pentaho-jpivot-plugin/settings.xml";
 
-
+    private static boolean writeDeprecationWarning() {
+        String showWarning = PentahoSystem.getSystemSetting(SETTINGS_FILE, "show-deprecation-warning", "true");
+        return Boolean.valueOf(showWarning);
+    } 
+    
 //  NOTE: Not necessary so commented out to reduce dependencies
 // implements org.apache.jasper.runtime.JspSourceDependent {
 
@@ -2868,7 +2872,7 @@ public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
       out.write("      </form>\n");
       out.write("      </table>\n");
       out.write("      </div>\n");
-      if (writeDeprecationWarning) {
+      if (writeDeprecationWarning()) {
           out.write("  <div id=\"deprecatedWarning\" style=\"margin: auto; width: 100%\">\n");
           out.write("  <table width=\"740px\" align=\"center\" style=\"background-color: #fffdd5; border-style: solid; border-color: #dcb114; border-width= 1px; font: normal .85em Tahoma, 'Trebuchet MS', Arial\">\n");
           out.write("    <tr>\n");
