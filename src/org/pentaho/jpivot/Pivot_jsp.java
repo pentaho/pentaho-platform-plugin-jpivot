@@ -20,10 +20,7 @@
 package org.pentaho.jpivot;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -73,6 +70,16 @@ import com.tonbeller.wcf.controller.WcfController;
 import com.tonbeller.wcf.form.FormComponent;
 
 public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
+
+    private static final ResourceBundle messages = ResourceBundle.getBundle("org.pentaho.jpivot.messages");
+    private static final String deprecationWarningMessage = messages.getString("deprecationWarning");
+    private static final String SETTINGS_FILE = "pentaho-jpivot-plugin/settings.xml";
+
+    private static boolean writeDeprecationWarning() {
+        String showWarning = PentahoSystem.getSystemSetting(SETTINGS_FILE, "show-deprecation-warning", "true");
+        return Boolean.valueOf(showWarning);
+    } 
+    
 //  NOTE: Not necessary so commented out to reduce dependencies
 // implements org.apache.jasper.runtime.JspSourceDependent {
 
@@ -2865,20 +2872,20 @@ public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
       out.write("      </form>\n");
       out.write("      </table>\n");
       out.write("      </div>\n");
-      out.write("  <div id=\"deprecatedWarning\" style=\"margin: auto; width: 100%\">\n");
-      out.write("  <table width=\"740px\" align=\"center\" style=\"background-color: #fffdd5; border-style: solid; border-color: #dcb114; border-width= 1px; font: normal .85em Tahoma, 'Trebuchet MS', Arial\">\n");
-      out.write("    <tr>\n");
-      out.write("      <td valign=\"top\">\n");
-      out.write("        <img src=\"../../content/jpivot/jpivot/navi/warning.png\"/>\n");
-      out.write("      </td>\n");
-      out.write("      <td>\n");
-      out.write("        JPivot has been replaced by Pentaho Analyzer.<br/>\n");
-      out.write("        It has been provided for your convenience since version 4.0 and will be completely removed with the upcoming Version 5.0.<br/>\n");
-      out.write("        Please transition your current Analysis Views to Pentaho Analyzer as the functionality will no longer be available with Version 5.0. \n");
-      out.write("      </td>\n");
-      out.write("    </tr>\n");
-      out.write("  </table>\n");
-      out.write("</div>\n");
+      if (writeDeprecationWarning()) {
+          out.write("  <div id=\"deprecatedWarning\" style=\"margin: auto; width: 100%\">\n");
+          out.write("  <table width=\"740px\" align=\"center\" style=\"background-color: #fffdd5; border-style: solid; border-color: #dcb114; border-width= 1px; font: normal .85em Tahoma, 'Trebuchet MS', Arial\">\n");
+          out.write("    <tr>\n");
+          out.write("      <td valign=\"top\">\n");
+          out.write("        <img src=\"../../content/jpivot/jpivot/navi/warning.png\"/>\n");
+          out.write("      </td>\n");
+          out.write("      <td>\n");
+          out.write(deprecationWarningMessage);
+          out.write("      </td>\n");
+          out.write("    </tr>\n");
+          out.write("  </table>\n");
+          out.write("</div>\n");
+      }
       out.write("</body>\n");
       out.write("\n");
       out.write("</html>\n");
