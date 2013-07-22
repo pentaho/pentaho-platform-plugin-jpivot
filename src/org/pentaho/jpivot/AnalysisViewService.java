@@ -85,6 +85,18 @@ import org.pentaho.platform.web.servlet.messages.Messages;
 
 public class AnalysisViewService extends ServletBase {
 
+  public static final String jpivotPluginDir;
+  static {
+      // the plugin dir will be in one of 2 location
+      File f = new File(PentahoSystem.getApplicationContext()
+              .getSolutionPath("system" + File.separator + "pentaho-jpivot-plugin"));
+      if (f.exists()) {
+          jpivotPluginDir = "pentaho-jpivot-plugin";
+      } else {
+          jpivotPluginDir = "pentaho-jpivot-plugin-legacy";
+      }
+  }
+
   public static String ANALYSIS_VIEW_TEMPLATE = "analysis_view_template.xjpivot"; //$NON-NLS-1$
 
   private static final long serialVersionUID = 831738225052159697L;
@@ -210,7 +222,7 @@ public class AnalysisViewService extends ServletBase {
     PentahoSystem.systemEntryPoint();
     try {
       List<MondrianCatalog> catalogs = mondrianCatalogService.listCatalogs(getPentahoSession(request), true);
-      String newAnalysisViewTemplate = "system" + File.separator + "pentaho-jpivot-plugin" + File.separator + "resources" + File.separator + "new_analysis_view.html"; //$NON-NLS-1$ //$NON-NLS-2$
+      String newAnalysisViewTemplate = "system" + File.separator + jpivotPluginDir + File.separator + "resources" + File.separator + "new_analysis_view.html"; //$NON-NLS-1$ //$NON-NLS-2$
       String file = PentahoSystem.getApplicationContext().getSolutionPath(newAnalysisViewTemplate);
       BufferedReader br = new BufferedReader(new FileReader(file));
       String content = "";
@@ -427,7 +439,7 @@ public class AnalysisViewService extends ServletBase {
    */
   public ActionSequenceDocument loadAnalysisViewTemplate(final IPentahoSession session) throws PentahoSystemException {
 
-    String analysisViewTemplate = "system" + File.separator + "pentaho-jpivot-plugin" + File.separator + "resources" + File.separator + AnalysisViewService.ANALYSIS_VIEW_TEMPLATE; //$NON-NLS-1$ //$NON-NLS-2$
+    String analysisViewTemplate = "system" + File.separator + jpivotPluginDir + File.separator + "resources" + File.separator + AnalysisViewService.ANALYSIS_VIEW_TEMPLATE; //$NON-NLS-1$ //$NON-NLS-2$
     InputStream is = null;
 
     try {
