@@ -28,6 +28,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.pentaho.jpivot.AnalysisViewService;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 
 @SuppressWarnings({"rawtypes", "deprecation" })
@@ -102,7 +103,8 @@ public class ProxyServletContext implements ServletContext {
       arg0 = "/" + arg0;
     }
     // get path to the system folder
-    File f = new File(PentahoSystem.getApplicationContext().getSolutionPath("system/pentaho-jpivot-plugin" + arg0));
+    File f = new File(PentahoSystem.getApplicationContext().getSolutionPath("system/"
+            + AnalysisViewService.jpivotPluginDir + arg0));
     return f.toURI().toURL();
   }
 
