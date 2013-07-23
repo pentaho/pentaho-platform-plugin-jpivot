@@ -16,5 +16,16 @@
     <bean id="xjpivot.editor" class="org.pentaho.platform.web.http.ActionSequenceContentGenerator" scope="prototype"/>
     <bean id="AnalysisViewService" class="org.pentaho.jpivot.AnalysisViewService"/>
     <bean id="PivotViewComponent" class="org.pentaho.jpivot.PivotViewComponent"/>
+
+    <!-- The Print bean is disabled due to an incompatibility with the version of org.apache.fop
+         required by biserver and the (old) version required by jpivot.
+         In order to enable export to pdf/excel in the jpivot plugin, uncomment the bean below
+         and replace the version of fop.jar found in WEB-INF/lib with fop-0.20.5.
+         Be aware that this may have negative impacts on other system components.
+         See http://jira.pentaho.com/browse/BISERVER-7286 for more information.
+
+    -->
+    <!--
     <bean id="Print" class="org.pentaho.jpivot.proxies.ProxyPrintServlet"/>
+    -->
 </beans>
