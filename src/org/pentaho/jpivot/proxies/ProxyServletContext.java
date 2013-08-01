@@ -105,6 +105,12 @@ public class ProxyServletContext implements ServletContext {
     // get path to the system folder
     File f = new File(PentahoSystem.getApplicationContext().getSolutionPath("system/"
             + AnalysisViewService.jpivotPluginDir + arg0));
+
+    // the spec says to return null if the item isn't present
+    if (!f.exists()) {
+      return null;
+    }
+
     return f.toURI().toURL();
   }
 
