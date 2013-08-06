@@ -21,6 +21,7 @@
 package org.pentaho.jpivot;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -259,16 +260,22 @@ public class AnalysisSaver extends PentahoMessenger {
   }
   
   public static String cleansePath(String path, String fileName) {
-    if (path == null) return null;
-    if (fileName != null) {
-      fileName = fileName.endsWith(AnalysisSaver.SUFFIX) ? fileName : fileName + AnalysisSaver.SUFFIX;
+    if (path == null)
+        return null;
+    File file = new File(path);
+    if (file.getName().equals(fileName) ||
+            file.getName().equals(fileName + AnalysisSaver.SUFFIX)) {
+        file = file.getParentFile();
     }
-    if (path.endsWith(fileName)) {
-      path = path.substring(0, path.length() - fileName.length());
+    if (file == null)
+        return null;
+    String cleansedPath = file.getPath();
+    if (File.separatorChar == '\\') {
+        cleansedPath = cleansedPath.replace('\\', '/');
     }
     if (path.endsWith("/")) {
-      path = path.substring(0, path.length() - 1);
+        cleansedPath = path.substring(0, path.length() - 1);
     }
-    return path;
+    return cleansedPath;
   }
 }
