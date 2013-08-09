@@ -24,9 +24,9 @@
   </target>
   
   <target name="assemble" depends="subfloor-pkg.assemble" >
-    <echo message="Copying plugin.xml.disabled over plugin.xml" />
-    <copy file="package-res/plugin.xml.disabled" 
-          tofile="${approot.stage.dir}/plugin.xml" 
+    <echo message="Copying settings.xml.disabled over settings.xml" />
+    <copy file="package-res/settings.xml.disabled" 
+          tofile="${approot.stage.dir}/settings.xml" 
           overwrite="true" />
   </target>
 
