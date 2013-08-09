@@ -10,26 +10,6 @@
   <!-- Menu entry -->
   <menu-items/>
   
-  <overlays>
-    <overlay id="launch" resourcebundle="system/jpivot/resources/messages/messages.properties">
-		<button 
-			id="launch_new_jpivot" 
-			label="${Launcher.NEW_JPIVOT}" 
-			image="content/jpivot/jpivot/images/btn_ql_newjpivot.png"
-			command="openURL('${Launcher.NEW_JPIVOT_TITLE}', '${Launcher.NEW_JPIVOT_TOOLTIP}', 'plugin/jpivot/AnalysisViewService?component=newView')"/>
-    </overlay>
-	
-    <overlay id="startup.jpivot"  resourcebundle="content/jpivot/jpivot/messages">
-        <toolbar id="mainToolbar">
-            <toolbarbutton id="openJPivot" image="../content/jpivot/jpivot/jpivot_toolbar_icon.png" onclick="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" tooltiptext="${Launcher.NEW_JPIVOT_TOOLTIP}"  insertafter="dummyPluginContentButton"/>
-        </toolbar>
-		<menubar id="newmenu">
-			<menuitem id="adhocrep" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" />		
-		</menubar>
-    </overlay>    		
-	
-</overlays>  
-  
   	<content-types>
 		<content-type type="xjpivot" mime-type="text/html">
         	<title>JPivot View</title>
