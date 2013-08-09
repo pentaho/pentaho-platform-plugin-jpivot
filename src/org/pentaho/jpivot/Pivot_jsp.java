@@ -1039,7 +1039,6 @@ public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
       out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/PickListCtrl.js\" type=\"text/javascript\"></script>\n");
       out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/ListCtrl.js\" type=\"text/javascript\"></script>\n");
       out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/ComboCtrl.js\" type=\"text/javascript\"></script>\n");
-      out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/Dialog.js\" type=\"text/javascript\"></script>\n");
       out.write("\n");
       out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/ButtonCtrl.js\" type=\"text/javascript\"></script>\n");
       out.write("<script src=\"../../content/jpivot/adhoc/js/common/ui/MessageCtrl.js\" type=\"text/javascript\"></script>\n");
@@ -2455,7 +2454,7 @@ public final class Pivot_jsp  extends org.apache.jasper.runtime.HttpJspBase {
       out.write("    <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"popupDialog_table\">\n");
       out.write("      <tr>\n");
       out.write("        <td class=\"popupDialog_header\">\n");
-      out.write("          <div id=\"browser.titleBar\" class=\"popupDialogTitleBar\" onmouseover=\"this.onmousedown=Dialog.dragIsDown;\" ondragstart=\"return false;\" onselectstart=\"return false;\"></div>\n");
+      out.write("          <div id=\"browser.titleBar\" class=\"popupDialogTitleBar\" ondragstart=\"return false;\" onselectstart=\"return false;\"></div>\n");
       out.write("        </td>\n");
       out.write("      </tr>\n");
       out.write("      <tr>\n");
