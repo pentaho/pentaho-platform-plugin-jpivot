@@ -10,14 +10,6 @@
   <!-- Menu entry -->
   <menu-items/>
 
-  <overlays>
-    <overlay id="startup.jpivot"  resourcebundle="content/jpivot/jpivot/messages">
-		<menubar id="newmenu">
-			<menuitem id="adhocrep" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" />		
-		</menubar>
-    </overlay>    		
-  </overlays>  
-  
   	<content-types>
 		<content-type type="xjpivot" mime-type="text/html">
         	<title>JPivot View</title>
