@@ -28,6 +28,10 @@
     <copy file="package-res/settings.xml.disabled" 
           tofile="${approot.stage.dir}/settings.xml" 
           overwrite="true" />
+    <echo message="Copying plugin.xml.disabled over plugin.xml" />
+    <copy file="package-res/plugin.xml.disabled" 
+          tofile="${approot.stage.dir}/plugin.xml" 
+          overwrite="true" />
   </target>
 
 
