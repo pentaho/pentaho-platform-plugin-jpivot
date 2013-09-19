@@ -1,85 +1,20 @@
 /*
- * Copyright 2007 Pentaho Corporation.  All rights reserved. 
- * This software was developed by Pentaho Corporation and is provided under the terms 
- * of the Mozilla Public License, Version 1.1, or any later version. You may not use 
- * this file except in compliance with the license. If you need a copy of the license, 
- * please go to http://www.mozilla.org/MPL/MPL-1.1.txt. The Original Code is the Pentaho 
- * BI Platform.  The Initial Developer is Pentaho Corporation.
- *
- * Software distributed under the Mozilla Public License is distributed on an "AS IS" 
- * basis, WITHOUT WARRANTY OF ANY KIND, either express or  implied. Please refer to 
- * the license for the specific language governing your rights and limitations.
- *
- * Created  
- * @author
- */
+* Copyright 2002 - 2013 Pentaho Corporation.  All rights reserved.
+* 
+* This software was developed by Pentaho Corporation and is provided under the terms
+* of the Mozilla Public License, Version 1.1, or any later version. You may not use
+* this file except in compliance with the license. If you need a copy of the license,
+* please go to http://www.mozilla.org/MPL/MPL-1.1.txt. TThe Initial Developer is Pentaho Corporation.
+*
+* Software distributed under the Mozilla Public License is distributed on an "AS IS"
+* basis, WITHOUT WARRANTY OF ANY KIND, either express or  implied. Please refer to
+* the license for the specific language governing your rights and limitations.
+*/
 
-/* DETERMINE STEP BY WHICH DIV IS DISPLAY:BLOCK */
-function resizePg() {
-	if(document.getElementById("content0").style.display == "block") {
-		setHeights_step0();
-	} else if(document.getElementById("content1").style.display == "block") {
-		setHeights_step1();
-	} else if(document.getElementById("content2").style.display == "block") {
-		setHeights_step2();
-	} else if(document.getElementById("content3").style.display == "block") {
-		setHeights_step3();
-	}
-}
-
-
-/* ======================================================================================================================================= */
-/* ======================================================================================================================================= */
-/* =================================                       STEP ONE                 ====================================================== */
-/* ======================================================================================================================================= */
-/* ======================================================================================================================================= */
-function setHeights_step0() {
-
-	var windowWidth = 0;
-	var windowHeight = 0;
-
-	var block = document.getElementById("pixelshim");
-	
-	var shim_availBusinessBlock = document.getElementById("shim_availableBusinessViews");
-	var descriptionContainer = document.getElementById("descriptionContainer");
-	var categoriesContainer = document.getElementById("categoriesContainer");
-
-	//var availableTemplatesContainer = document.getElementById("availableTemplatesContainer");
-	var availableTemplatesDiv =  document.getElementById("availableTemplatesDiv");
-	var templateDescriptionContainer = document.getElementById("templateDescriptionContainer");
-	var thumbnailContainer = document.getElementById("thumbnailContainer");
-	var topBodyWidthFix = document.getElementById("middleContentTable");
-	var topBodyWidthFix2 = document.getElementById("middleContentTable2");
-	
-	var TOP_ROW_PERCENT = 0.55;	// 0.55; TODO sbarkdull, when re-introducing the templates, change 1.0 to 0.55;
-	var MIN_HEIGHT = 350;
-	var MIN_WIDTH = 965;
-	var HEADER_HEIGHT = 72;	// see style sheet
-	var FOOTER_HEIGHT = 50;	// see style sheet
-	var usedSpace = 0;
-	if( typeof( window.innerWidth ) == 'number' ) {
-		// Firefox
-		windowWidth = window.innerWidth;
-		windowHeight = window.innerHeight;
-		
-		var FUDGE = 130;
-		var SHIM_HEIGHT = 34;
-		usedSpace = HEADER_HEIGHT + FOOTER_HEIGHT + FUDGE;
-
-	} else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-		//IE7
-		windowWidth = document.documentElement.clientWidth;
-		windowHeight = document.documentElement.clientHeight;
-		
-		var FUDGE = 145;
-		var SHIM_HEIGHT = 28;
-		usedSpace = HEADER_HEIGHT + FOOTER_HEIGHT + FUDGE;
-
-	} else if(typeof document.body.style.maxHeight == "undefined") {
-		// IE6
 	/* =========================================
 		   IE VERSION 6 in NON STANDARDS MODE
 	   ========================================= */
+
 		windowWidth = document.body.clientWidth;
 		windowHeight = document.body.clientHeight;
 		

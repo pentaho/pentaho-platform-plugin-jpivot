@@ -1,3 +1,16 @@
+/*
+* Copyright 2002 - 2013 Pentaho Corporation.  All rights reserved.
+* 
+* This software was developed by Pentaho Corporation and is provided under the terms
+* of the Mozilla Public License, Version 1.1, or any later version. You may not use
+* this file except in compliance with the license. If you need a copy of the license,
+* please go to http://www.mozilla.org/MPL/MPL-1.1.txt. TThe Initial Developer is Pentaho Corporation.
+*
+* Software distributed under the Mozilla Public License is distributed on an "AS IS"
+* basis, WITHOUT WARRANTY OF ANY KIND, either express or  implied. Please refer to
+* the license for the specific language governing your rights and limitations.
+*/
+
 // ** I18N
 
 // Calendar LT language
@@ -14,7 +27,7 @@ Calendar._DN = new Array
 ("Sekmadienis",
  "Pirmadienis",
  "Antradienis",
- "Trečiadienis",
+ "Tre�?iadienis",
  "Ketvirtadienis",
  "Pentadienis",
  "Šeštadienis",
@@ -89,8 +102,8 @@ Calendar._TT["ABOUT"] =
 "- Nuspauskite ir laikykite pelės klavišą greitesniam pasirinkimui.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "Laiko pasirinkimas:\n" +
-"- Spustelkite ant valandų arba minučių - skaičius padidės vienetu.\n" +
-"- Jei spausite kartu su Shift, skaičius sumažės.\n" +
+"- Spustelkite ant valandų arba minu�?ių - skai�?ius padidės vienetu.\n" +
+"- Jei spausite kartu su Shift, skai�?ius sumažės.\n" +
 "- Greitam pasirinkimui spustelkite ir pajudinkite pelę.";
 
 Calendar._TT["PREV_YEAR"] = "Ankstesni metai (laikykite, jei norite meniu)";

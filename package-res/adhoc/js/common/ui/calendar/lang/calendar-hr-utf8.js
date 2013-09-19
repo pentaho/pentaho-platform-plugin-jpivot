@@ -1,8 +1,8 @@
-/* Croatian language file for the DHTML Calendar version 0.9.2 
-* Author Krunoslav Zubrinic <krunoslav.zubrinic@vip.hr>, June 2003.
+/*! Croatian language file for the DHTML Calendar version 0.9.2
 * Feel free to use this script under the terms of the GNU Lesser General
 * Public License, as long as you do not remove or alter this notice.
 */
+
 Calendar._DN = new Array
 ("Nedjelja",
  "Ponedjeljak",
@@ -13,8 +13,8 @@ Calendar._DN = new Array
  "Subota",
  "Nedjelja");
 Calendar._MN = new Array
-("SijeÄanj",
- "VeljaÄa",
+("SijeÄ?anj",
+ "VeljaÄ?a",
  "OÅ¾ujak",
  "Travanj",
  "Svibanj",
@@ -28,7 +28,7 @@ Calendar._MN = new Array
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["TOGGLE"] = "Promjeni dan s kojim poÄinje tjedan";
+Calendar._TT["TOGGLE"] = "Promjeni dan s kojim poÄ?inje tjedan";
 Calendar._TT["PREV_YEAR"] = "Prethodna godina (dugi pritisak za meni)";
 Calendar._TT["PREV_MONTH"] = "Prethodni mjesec (dugi pritisak za meni)";
 Calendar._TT["GO_TODAY"] = "Idi na tekuÄ‡i dan";
