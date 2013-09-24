@@ -6,6 +6,7 @@
     <conf name="default"/>
     <conf name="test" visibility="private"/>
     <conf name="source"/>
+    <conf name="zip"/>
     <conf name="runtime"/>
     <conf name="codegen" visibility="private"/>
     <conf name="codegen-mac" visibility="private" extends="codegen"/>
@@ -15,6 +16,7 @@
 
   <publications>
     <artifact name="${ivy.artifact.id}" type="jar" conf="default"/>
+    <artifact name="${ivy.artifact.id}"  type="zip"  conf="zip"/>
     <artifact name="${ivy.artifact.id}" m:classifier="sources" type="source" ext="jar" conf="source"/>
   </publications>
 
