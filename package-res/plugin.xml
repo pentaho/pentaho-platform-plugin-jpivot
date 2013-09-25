@@ -11,6 +11,9 @@
   <menu-items/>
 
   <overlays>
+    <overlay id="launch" resourcebundle="api/repos/jpivot/jpivot/messages" >
+      <button id="jpivot" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="Home.openFile('JPivot','JPivot', 'plugin/jpivot/AnalysisViewService?component=newView');$('#btnCreateNew').popover('hide')"/>
+    </overlay>
     <overlay id="startup.jpivot"  resourcebundle="content/jpivot/jpivot/messages">
 		<menubar id="newmenu">
 			<menuitem id="adhocrep" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" />		
