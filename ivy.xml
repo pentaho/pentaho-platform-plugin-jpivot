@@ -31,6 +31,9 @@
     <dependency org="javax.servlet" name="jstl" rev="1.0.5"/>
 	<dependency org="org.apache.tomcat" name="jasper" rev="6.0.36" transitive="false"/>
 	<dependency org="jakarta-taglibs" name="standard" rev="1.0.6" transitive="false"/> 
+    <!-- ESAPI -->
+    <dependency org="org.owasp.esapi" name="esapi" rev="2.0.1"/>
+
     <!--  internal dependencies -->
     <dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" changing="true">
       <exclude org="commons-dbcp" name="commons-dbcp"/>
