@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2002 - 2013 Pentaho Corporation.  All rights reserved.
  *
  * This software was developed by Pentaho Corporation and is provided under the terms
@@ -46,7 +46,7 @@
     selectBusinessModelWarn: "実行前にデータ ソースを選択してください。",
     selectBusinessModelMsg: "利用可能なデータ ソースからデータ ソースを選択して下さい。",
     addDetailsMsg: "利用可能な一覧からカラムを詳細一覧へ追加して下さい。",
-    invalidFileName: "%{0} は無効なファイル名です。有効なファイル名は次の文字含むことができません: /\?%*:|\&quot;<>",
+    invalidFileName: "%{0} は無効なファイル名です。有効なファイル名は次の文字含むことができません: /\?%*:|\"<>",
     invalidBranchElement: "ドキュメント内に無効な要素があります。分岐要素は isDir 属性を false に設定しなければなりません。",
     searchDlgTitle: "検索",
     availItemsTitle: "1 つ以上のカラムを選択し、それらをグループ、詳細またはフィルターの一覧へ追加",
@@ -116,10 +116,10 @@
     STEP3_SHOW_GROUP_SUMMARY_TOOLTIP: "詳細カラムに対するサマリー情報の表示 (総数、合計、平均、など) を確認して下さい。",
     STEP3_REPEAT_GROUP_HEADER_TOOLTIP: "Pdf レポートの各ページにあるグループヘッダーの繰り返しを確認して下さい。",
     STEP3_SELECT_AN_ITEM_TOOLTIP: "グループ、詳細またはフィルター一覧から項目を選択して下さい。",
-    STEP3_ADD_CONSTRAINT_TOOLTIP: "グループ、詳細またはフィルター一覧から項目を選択して、'制約の追加' をクリックして下さい。",
+    STEP3_ADD_CONSTRAINT_TOOLTIP: "グループ、詳細またはフィルター一覧から項目を選択して、\u0027制約の追加\u0027 をクリックして下さい。",
     STEP3_GROUPS_EDIT_SORT_COLUMN_TOOLTIP: "グループリストから項目を選択して下さい。&quot;昇順&quot; または &quot;降順&quot; を選択してください。",
-    STEP3_DETAILS_EDIT_SORT_COLUMN_TOOLTIP: "詳細リストから項目を選択して下さい。 '追加' ボタンをクリックして下さい。&quot;昇順&quot; または &quot;降順&quot; を選択してください。",
-    STEP3_ADD_DETAILS_SORT: "詳細リストの項目を選択して、'追加' をクリック",
+    STEP3_DETAILS_EDIT_SORT_COLUMN_TOOLTIP: "詳細リストから項目を選択して下さい。 \u0027追加\u0027 ボタンをクリックして下さい。&quot;昇順&quot; または &quot;降順&quot; を選択してください。",
+    STEP3_ADD_DETAILS_SORT: "詳細リストの項目を選択して、\u0027追加\u0027 をクリック",
     STEP3_CANNOT_EDIT_GROUPS_SORT: "グループの並べ替えカラムを追加、削除、並べ替えできません。",
     STEP3_DETAIL_EDITOR_TOOLTIP: "詳細項目の属性を設定",
     STEP3_GROUP_ITEM_EDITOR_TOOLTIP: "グループ項目の属性を設定",
@@ -193,7 +193,7 @@
     DEFAULT_GROUP_TOTAL_LABEL: "合計",
     FREE_FORM: "自由形式",
     BUILDER: "ビルダー",
-    MQL_PARSE_FAILED: "MQL パーサー エラー：解析の実行に失敗しました: \&quot;%{0}\&quot;",
+    MQL_PARSE_FAILED: "MQL パーサー エラー：解析の実行に失敗しました: \"%{0}\"",
     REPORT_FILE_FAILED_TO_LOAD: "エラー： レポート定義ファイルは無効なデータを含んでいます。理由： %{0}",
     INVALID_COMPARATOR_NAME: "無効な比較演算関数名です: %{0}.",
     UNRECOGNIZED_PAGE_BREAK_VALUE: "グループ ヘッダーにある改ページの値は認識されいません: %{0}.",
