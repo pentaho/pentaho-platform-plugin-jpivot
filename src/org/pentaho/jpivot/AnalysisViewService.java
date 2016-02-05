@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -253,7 +254,7 @@ public class AnalysisViewService extends ServletBase {
       }
       catalogs.get(0).getSchema().getName();
       json += "]";
-      content = content.replaceAll("\\{json\\}", json);
+      content = content.replaceAll("\\{json\\}", Matcher.quoteReplacement(json));
       response.getWriter().print(content);
 
       // request.setAttribute("catalog", catalogs); //$NON-NLS-1$
