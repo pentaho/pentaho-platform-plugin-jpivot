@@ -17,11 +17,9 @@
 
 package org.pentaho.jpivot;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -233,13 +232,7 @@ public class AnalysisViewService extends ServletBase {
         "system" + File.separator + jpivotPluginDir + File.separator + "resources" + File.separator
           + "new_analysis_view.html"; //$NON-NLS-1$ //$NON-NLS-2$
       String file = PentahoSystem.getApplicationContext().getSolutionPath( newAnalysisViewTemplate );
-      BufferedReader br = new BufferedReader( new FileReader( file ) );
-      String content = "";
-      String line = br.readLine();
-      while ( line != null ) {
-        content += line + "\n";
-        line = br.readLine();
-      }
+      String content = FileUtils.readFileToString( new File( file ), LocaleHelper.getSystemEncoding() );
       content = content.replaceAll( "\\{context\\}", request.getContextPath() );
       String json = new JsonBuilder().generateJsonForResponse( catalogs );
       content = content.replaceAll( "\\{json\\}", json );
