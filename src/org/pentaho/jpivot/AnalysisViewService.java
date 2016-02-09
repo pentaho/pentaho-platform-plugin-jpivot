@@ -238,10 +238,10 @@ public class AnalysisViewService extends ServletBase {
       // json representation
       for (final Iterator<MondrianCatalog> iCatalog = catalogs.iterator(); iCatalog.hasNext(); ) {
         final MondrianCatalog catalog = iCatalog.next();
-        json += String.format("{'schema': '%s', 'cubes': [", escapeJavaScript(catalog.getSchema().getName()));
+        json += String.format("{\"schema\": \"%s\", \"cubes\": [", escapeJavaScript(catalog.getSchema().getName()));
         for (final Iterator<MondrianCube> iCube = catalog.getSchema().getCubes().iterator(); iCube.hasNext(); ) {
           final MondrianCube cube = iCube.next();
-          json += String.format("{'id': '%s', 'name': '%s'}",
+          json += String.format("{\"id\": \"%s\", \"name\": \"%s\"}",
               escapeJavaScript(cube.getId()), escapeJavaScript(cube.getName()));
           if (iCube.hasNext()) json += ", ";
         }
