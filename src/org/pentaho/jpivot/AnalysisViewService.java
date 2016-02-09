@@ -27,13 +27,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,6 +82,8 @@ import org.pentaho.platform.web.http.request.HttpRequestParameterProvider;
 import org.pentaho.platform.web.http.session.HttpSessionParameterProvider;
 import org.pentaho.platform.web.servlet.ServletBase;
 import org.pentaho.platform.web.servlet.messages.Messages;
+
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 public class AnalysisViewService extends ServletBase {
 
@@ -234,24 +236,18 @@ public class AnalysisViewService extends ServletBase {
       content = content.replaceAll("\\{context\\}", request.getContextPath());
       String json = "[";
       // json representation
-      int count = 0;
-      for (MondrianCatalog catalog : catalogs) {
-        if (count != 0) {
-          json += ",";
+      for (final Iterator<MondrianCatalog> iCatalog = catalogs.iterator(); iCatalog.hasNext(); ) {
+        final MondrianCatalog catalog = iCatalog.next();
+        json += String.format("{\"schema\": \"%s\", \"cubes\": [", escapeJavaScript(catalog.getSchema().getName()));
+        for (final Iterator<MondrianCube> iCube = catalog.getSchema().getCubes().iterator(); iCube.hasNext(); ) {
+          final MondrianCube cube = iCube.next();
+          json += String.format("{\"id\": \"%s\", \"name\": \"%s\"}",
+              escapeJavaScript(cube.getId()), escapeJavaScript(cube.getName()));
+          if (iCube.hasNext()) json += ", ";
         }
-        json += "{schema:\"" + StringEscapeUtils.escapeJavaScript(catalog.getSchema().getName()) + "\", cubes:[";
-        int ccount = 0;
-        for (MondrianCube cube : catalog.getSchema().getCubes()) {
-          if (ccount != 0) {
-            json += ",";
-          }
-          json += "\"" + StringEscapeUtils.escapeJavaScript(cube.getName()) + "\""; 
-          ccount++;
-        }
-        json += "]}\n";
-        count++;
+        json += "]}";
+        if (iCatalog.hasNext()) json += ",\n";
       }
-      catalogs.get(0).getSchema().getName();
       json += "]";
       content = content.replaceAll("\\{json\\}", json);
       response.getWriter().print(content);
