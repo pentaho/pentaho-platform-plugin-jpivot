@@ -233,28 +233,9 @@ public class AnalysisViewService extends ServletBase {
         line = br.readLine();
       }
       content = content.replaceAll("\\{context\\}", request.getContextPath());
-      String json = "[";
-      // json representation
-      int count = 0;
-      for (MondrianCatalog catalog : catalogs) {
-        if (count != 0) {
-          json += ",";
-        }
-        json += "{schema:\"" + StringEscapeUtils.escapeJavaScript(catalog.getSchema().getName()) + "\", cubes:[";
-        int ccount = 0;
-        for (MondrianCube cube : catalog.getSchema().getCubes()) {
-          if (ccount != 0) {
-            json += ",";
-          }
-          json += "\"" + StringEscapeUtils.escapeJavaScript(cube.getName()) + "\""; 
-          ccount++;
-        }
-        json += "]}\n";
-        count++;
-      }
-      catalogs.get(0).getSchema().getName();
-      json += "]";
-      content = content.replaceAll("\\{json\\}", Matcher.quoteReplacement(json));
+      String json = new JsonBuilder().generateJsonForResponse( catalogs );
+      content = content.replaceAll("\\{json\\}", json);
+
       response.getWriter().print(content);
 
       // request.setAttribute("catalog", catalogs); //$NON-NLS-1$
@@ -271,7 +252,6 @@ public class AnalysisViewService extends ServletBase {
     }
   }
 
-    
   public void listCatalogs(final IPentahoSession userSession, final OutputStream outputStream, final boolean wrapWithSoap) throws IOException {
     StringBuilder builder = new StringBuilder();
     List<MondrianCatalog> catalogs = mondrianCatalogService.listCatalogs(userSession, true);
