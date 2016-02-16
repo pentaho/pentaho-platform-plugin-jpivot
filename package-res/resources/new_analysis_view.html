@@ -15,11 +15,7 @@ function init() {
 		for(var i=0; i < json.length; i++) {
 		    sel.options.add(new Option(json[i].schema, json[i].schema));
 		}
-		var selc = document.getElementById('cube');
-		selc.options.length = 0;
-		for(var i=0; i < json[0].cubes.length; i++) {
-		    selc.options.add(new Option(json[0].cubes[i], json[0].cubes[i]));
-		}
+		schemaChanged(sel)
 	}
 }
 function schemaChanged(sel) {
@@ -28,7 +24,7 @@ function schemaChanged(sel) {
 	for (var i=0; i < json.length; i++) {
 		if (json[i].schema == sel.options[sel.selectedIndex].value) {
 			for(var j=0; j < json[i].cubes.length; j++) {
-				selc.options.add(new Option(json[i].cubes[j], json[i].cubes[j]));
+				selc.options.add(new Option(json[i].cubes[j].name, json[i].cubes[j].id));
 			}
 			return;
 		}
