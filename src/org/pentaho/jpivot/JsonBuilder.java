@@ -29,7 +29,6 @@ import java.util.regex.Matcher;
  */
 class JsonBuilder {
 
-  // package-local visibility for testing purposes
   String generateJsonForResponse( List<MondrianCatalog> catalogs ) {
     StringBuilder builder = new StringBuilder( 128 );
     builder.append( '[' );
@@ -41,16 +40,20 @@ class JsonBuilder {
       }
       builder.append( "{\"schema\":\"" )
         .append( StringEscapeUtils.escapeJavaScript( catalog.getSchema().getName() ) )
-        .append( "\", \"cubes\":[" );
+        .append( "\",\"cubes\":[" );
       int ccount = 0;
       for ( MondrianCube cube : catalog.getSchema().getCubes() ) {
         if ( ccount != 0 ) {
           builder.append( ',' );
         }
-        builder.append( '"' ).append( StringEscapeUtils.escapeJavaScript( cube.getName() ) ).append( '"' );
+        builder.append( '{' )
+          .append( "\"id\":\"" ).append( StringEscapeUtils.escapeJavaScript( cube.getId() ) ).append( '"' )
+          .append( ',' )
+          .append( "\"name\":\"" ).append( StringEscapeUtils.escapeJavaScript( cube.getName() ) ).append( '"' )
+          .append( '}' );
         ccount++;
       }
-      builder.append( "]}\n" );
+      builder.append( "]}" );
       count++;
     }
     builder.append( ']' );
