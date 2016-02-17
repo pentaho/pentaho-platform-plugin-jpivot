@@ -12,7 +12,7 @@
 
 <!-- buttons with spaces inbetween -->
 <xsl:template match="button[@hidden='true']"/>
-<xsl:template match="button">
+<xsl:template match="button" priority="1">
   <xsl:text> </xsl:text>
   <input type="submit" name="{@id}" value="{@label}"/>
   <xsl:text> </xsl:text>
