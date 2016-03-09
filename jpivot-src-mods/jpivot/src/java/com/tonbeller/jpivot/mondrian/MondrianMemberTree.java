@@ -14,10 +14,10 @@ package com.tonbeller.jpivot.mondrian;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import com.tonbeller.jpivot.MemberVisibilityAwareComparator;
 import mondrian.olap.ResultLimitExceededException;
 import mondrian.olap.SchemaReader;
 
@@ -146,20 +146,8 @@ public class MondrianMemberTree extends ExtensionSupport implements MemberTree {
     Member[] members = (Member[]) aMem.toArray(new Member[0]);
 
     // If there is no query result, do not sort
-    if (!visibleRootMembers.isEmpty()) {
-      Arrays.sort(members, new Comparator() {
-        public int compare(Object arg0, Object arg1) {
-          Member m1 = (Member) arg0;
-          Member m2 = (Member) arg1;
-          int index1 = visibleRootMembers.indexOf(m1);
-          int index2 = visibleRootMembers.indexOf(m2);
-          if (index2 == -1)
-            return -1; // m2 is higher, unvisible to the end
-          if (index1 == -1)
-            return 1; // m1 is higher, unvisible to the end
-          return index1 - index2;
-        }
-      });
+    if ( !visibleRootMembers.isEmpty() ) {
+      Arrays.sort( members, new MemberVisibilityAwareComparator<Member>( visibleRootMembers ) );
     }
 
     return members;
@@ -306,20 +294,8 @@ public class MondrianMemberTree extends ExtensionSupport implements MemberTree {
     }
     Member[] children = (Member[]) list.toArray(new Member[list.size()]);
 
-    if (res!=null){  //turned off
-      Arrays.sort(children, new Comparator() {
-        public int compare(Object arg0, Object arg1) {
-          Member m1 = (Member) arg0;
-          Member m2 = (Member) arg1;
-          int index1 = visibleChildMembers.indexOf(m1);
-          int index2 = visibleChildMembers.indexOf(m2);
-          if (index2 == -1)
-            return -1; // m2 is higher, unvisible to the end
-          if (index1 == -1)
-            return 1; // m1 is higher, unvisible to the end
-          return index1 - index2;
-        }
-      });
+    if ( res != null ) {  //turned off
+      Arrays.sort( children, new MemberVisibilityAwareComparator<Member>( visibleChildMembers ) );
     }
 
     return children;
