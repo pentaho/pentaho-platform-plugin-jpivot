@@ -1,6 +1,6 @@
 /*
 * Copyright 2002 - 2013 Pentaho Corporation.  All rights reserved.
-* 
+*
 * This software was developed by Pentaho Corporation and is provided under the terms
 * of the Mozilla Public License, Version 1.1, or any later version. You may not use
 * this file except in compliance with the license. If you need a copy of the license,
@@ -46,7 +46,7 @@ pg3SaveErrorMsg:"Erreur lors de l\u0027écriture de la page\u00203 de l\u0027ass
 selectBusinessModelWarn:"Sélectionner une source de données avant de poursuivre",
 selectBusinessModelMsg:"Sélectionnez une source de données parmi les sources de données disponibles.",
 addDetailsMsg:"Ajoutez une colonne issue des éléments disponibles dans la liste Détails.",
-invalidFileName:"%{0} est un nom de fichier non valide. Les noms de fichier valides ne peuvent pas inclure les caractères\u0020: /\?%*:|\"<>",
+invalidFileName:"%{0} est un nom de fichier non valide. Les noms de fichier valides ne peuvent pas inclure les caractères\u0020: /\?%*:|\&quot;<>",
 invalidBranchElement:"Élément non valide dans le document, l\u0027attribut isDir de l\u0027élément de branche est défini sur faux.",
 searchDlgTitle:"Rechercher",
 availItemsTitle:"Sélectionnez une ou plusieurs colonne(s) et ajoutez-les à la liste Groupes, Détails ou Filtres.",
@@ -193,7 +193,7 @@ STEP3_GROUP_TOTAL_LABEL:"Étiquette du résumé du groupe",
 DEFAULT_GROUP_TOTAL_LABEL:"Total",
 FREE_FORM:"Formulaire libre",
 BUILDER: "Générateur",
-MQL_PARSE_FAILED: "Erreur d\u0027analyseur MQL\u0020: échec de l\u0027analyse\u0020: \"%{0}\".",
+MQL_PARSE_FAILED: "Erreur d\u0027analyseur MQL\u0020: échec de l\u0027analyse\u0020: \&quot;%{0}\&quot;.",
 REPORT_FILE_FAILED_TO_LOAD: "Erreur\u0020: le fichier de définition du rapport contient des données non valides. Raison\u0020: %{0}",
 INVALID_COMPARATOR_NAME: "Nom de fonction du comparateur non valide\u0020: %{0}.",
 UNRECOGNIZED_PAGE_BREAK_VALUE: "Valeur non reconnue pour le saut de page sur l\u0027en-tête du groupe\u0020: %{0}.",
