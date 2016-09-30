@@ -29,8 +29,8 @@
     <dependency org="javax.servlet" name="servlet-api" rev="2.4"/>
     <dependency org="javax.servlet" name="jsp-api" rev="2.0"/>
     <dependency org="javax.servlet" name="jstl" rev="1.0.5"/>
-	<dependency org="org.apache.tomcat" name="jasper" rev="6.0.36" transitive="false"/>
-	<dependency org="jakarta-taglibs" name="standard" rev="1.0.6" transitive="false"/> 
+    <dependency org="org.apache.tomcat" name="jasper" rev="6.0.36" transitive="false"/>
+    <dependency org="org.apache.taglibs" name="taglibs-standard-impl" rev="1.2.5" transitive="false"/>
     <!-- ESAPI -->
     <dependency org="org.owasp.esapi" name="esapi" rev="2.0.1" transitive="false">
     <exclude org="commons-fileupload" name="commons-fileupload"/>
