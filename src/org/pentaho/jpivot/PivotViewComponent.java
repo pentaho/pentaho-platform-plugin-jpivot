@@ -17,6 +17,7 @@
 
 package org.pentaho.jpivot;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -198,15 +199,15 @@ public class PivotViewComponent extends ComponentBase {
       }
       String viewer = getInputStringValue(PivotViewComponent.VIEWER);
       if (viewer.indexOf('?') == -1) {
-        viewer += "?solution=" + getSolutionName() + "&path=" + getSolutionPath() + "&action=" + getActionName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        viewer += "?solution=" + getSolutionName() + "&path=" + encode(getSolutionPath()) + "&action=" + encode(getActionName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       } else {
-        viewer += "solution=" + getSolutionName() + "&path=" + getSolutionPath() + "&action=" + getActionName(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        viewer += "solution=" + getSolutionName() + "&path=" + encode(getSolutionPath()) + "&action=" + encode(getActionName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
 
       for (Iterator it = inputNames.iterator(); it.hasNext();) {
         String name = (String) it.next();
         if (!PivotViewComponent.ignoreInputs.contains(name)) {
-          viewer += "&" + name + "=" + URLEncoder.encode(getInputStringValue(name), LocaleHelper.getSystemEncoding()); //$NON-NLS-1$ //$NON-NLS-2$
+          viewer += "&" + name + "=" + encode(getInputStringValue(name)); //$NON-NLS-1$ //$NON-NLS-2$
         }
       }
 
@@ -505,4 +506,7 @@ public class PivotViewComponent extends ComponentBase {
     return true;
   }
 
+  private static String encode(String value) throws UnsupportedEncodingException {
+    return URLEncoder.encode(value, LocaleHelper.getSystemEncoding());
+  }
 }
