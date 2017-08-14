@@ -10,7 +10,7 @@
 <xsl:template match="cat-category">
   <tr>
     <th align="left" class="navi-axis">
-      <img src="{$context}/wcf/catedit/{@icon}" width="9" height="9"/>
+      <img src="{$context}/wcf/catedit/{@icon}"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="@name"/>
     </th>
@@ -31,12 +31,12 @@
 </xsl:template>
 
 <xsl:template match="cat-button[@icon]">
-  <input border="0" type="image" src="{$context}/wcf/catedit/{@icon}" name="{@id}" width="9" height="9"/>
+  <input border="0" type="image" src="{$context}/wcf/catedit/{@icon}" name="{@id}"/>
   <xsl:text> </xsl:text>
 </xsl:template>
 
 <xsl:template match="cat-button">
-  <img src="{$context}/wcf/catedit/empty.png" width="9" height="9"/>
+  <img src="{$context}/wcf/catedit/empty.png"/>
   <xsl:text> </xsl:text>
 </xsl:template>
 

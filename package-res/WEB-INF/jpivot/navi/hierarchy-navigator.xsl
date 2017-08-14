@@ -28,18 +28,18 @@
           <table border="0" cellspacing="0" cellpadding="0" width="100%">
             <tr>
               <th align="left" class="navi-axis">
-                <img src="{$context}/jpivot/navi/{@icon}" width="9" height="9"/>
+                <img src="{$context}/jpivot/navi/{@icon}"/>
                 <xsl:text> </xsl:text>
                 <xsl:value-of select="@name"/>
               </th>
               <td align="right" class="xform-close-button">
-                <input type="image" src="{$context}/wcf/form/cancel.png" value="{../@cancel-title}" name="{../@cancel-id}" width="16" height="16"/>
+                <input type="image" src="{$context}/wcf/form/cancel.png" value="{../@cancel-title}" name="{../@cancel-id}"/>
               </td>
             </tr>
           </table>
         </xsl:when>
         <xsl:otherwise>
-          <img src="{$context}/jpivot/navi/{@icon}" width="9" height="9"/>
+          <img src="{$context}/jpivot/navi/{@icon}"/>
           <xsl:text> </xsl:text>
           <xsl:value-of select="@name"/>
         </xsl:otherwise>
@@ -84,12 +84,12 @@
 </xsl:template>
 
 <xsl:template match="cat-button[@icon]">
-  <input border="0" type="image" src="{$context}/jpivot/navi/{@icon}" name="{@id}" width="9" height="9"/>
+  <input border="0" type="image" src="{$context}/jpivot/navi/{@icon}" name="{@id}"/>
   <xsl:text> </xsl:text>
 </xsl:template>
 
 <xsl:template match="cat-button">
-  <img src="{$context}/jpivot/navi/empty.png" width="9" height="9"/>
+  <img src="{$context}/jpivot/navi/empty.png"/>
   <xsl:text> </xsl:text>
 </xsl:template>
 

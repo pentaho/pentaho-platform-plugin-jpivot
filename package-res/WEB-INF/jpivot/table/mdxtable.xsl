@@ -99,20 +99,20 @@
 
 <!-- navigation: expand / collapse / leaf node -->
 <xsl:template match="drill-expand | drill-collapse">
-  <input type="image" title="{@title}" name="{@id}" src="{$context}/{$imgpath}/{@img}.gif" border="0" width="16" height="16"/>
+  <input type="image" title="{@title}" name="{@id}" src="{$context}/{$imgpath}/{@img}.gif" border="0"/>
 </xsl:template>
 
 <xsl:template match="drill-other">
-  <img src="{$context}/{$imgpath}/{@img}.gif" border="0" width="9" height="9"/>
+  <img src="{$context}/{$imgpath}/{@img}.gif" border="0"/>
 </xsl:template>
 
 <!-- navigation: sort -->
 <xsl:template match="sort">
-  <input name="{@id}" title="{@title}" type="image" src="{$context}/{$imgpath}/{@mode}.gif" border="0" width="9" height="9"/>
+  <input name="{@id}" title="{@title}" type="image" src="{$context}/{$imgpath}/{@mode}.gif" border="0"/>
 </xsl:template>
 
 <xsl:template match="drill-through">
-  <input name="{@id}" title="{@title}" type="image" src="{$context}/{$imgpath}/drill-through.gif" border="0" width="9" height="9"/>
+  <input name="{@id}" title="{@title}" type="image" src="{$context}/{$imgpath}/drill-through.gif" border="0"/>
 </xsl:template>
 
 

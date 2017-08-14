@@ -81,7 +81,7 @@
             </xsl:if>
             <xsl:if test="@closeId">
               <td align="right" class="xform-close-button">
-                <input type="image" src="{$context}/wcf/form/cancel.png" name="{@closeId}" width="16" height="16"/>
+                <input type="image" src="{$context}/wcf/form/cancel.png" name="{@closeId}"/>
               </td>
             </xsl:if>
           </tr>
@@ -123,16 +123,16 @@
         <!-- expand/collapse button -->
         <xsl:choose>
           <xsl:when test="@state='bounded'">
-            <input border="0" type="image" name="{@id}.unbound" src="{$context}/wcf/tree/unbound.png" width="9" height="9"/>
+            <input border="0" type="image" name="{@id}.unbound" src="{$context}/wcf/tree/unbound.png"/>
           </xsl:when>
           <xsl:when test="@state='expanded'">
-            <input border="0" type="image" name="{@id}.collapse" src="{$context}/wcf/tree/collapse.png" width="9" height="9"/>
+            <input border="0" type="image" name="{@id}.collapse" src="{$context}/wcf/tree/collapse.png"/>
           </xsl:when>
           <xsl:when test="@state='collapsed'">
-            <input border="0" type="image" name="{@id}.expand" src="{$context}/wcf/tree/expand.png" width="9" height="9"/>
+            <input border="0" type="image" name="{@id}.expand" src="{$context}/wcf/tree/expand.png"/>
           </xsl:when>
           <xsl:otherwise>
-            <img src="{$context}/wcf/tree/leaf.png" width="9" height="9"/>
+            <img src="{$context}/wcf/tree/leaf.png"/>
           </xsl:otherwise>
         </xsl:choose>
 
@@ -160,7 +160,7 @@
 
 <xsl:template match="delete-button">
   <xsl:text> </xsl:text>
-  <input type="image" border="0" name="{@id}" src="{$context}/wcf/tree/delete.png" width="9" height="9"/>
+  <input type="image" border="0" name="{@id}" src="{$context}/wcf/tree/delete.png"/>
 </xsl:template>
 
 <xsl:template match="buttons">

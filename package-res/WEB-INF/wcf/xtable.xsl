@@ -68,7 +68,7 @@ stylesheet for wcf table component
           <tr>
             <xsl:if test="@editId">
               <th align="left" class="xtable-title">
-                <input type="image" src="{$context}/wcf/table/edit.png" name="{@editId}" width="16" height="16"/>
+                <input type="image" src="{$context}/wcf/table/edit.png" name="{@editId}"/>
               </th>
             </xsl:if>
             <xsl:if test="@title">
@@ -79,7 +79,7 @@ stylesheet for wcf table component
             </xsl:if>
             <xsl:if test="@closeId">
               <td align="right" class="xtable-title">
-                <input type="image" src="{$context}/wcf/form/cancel.png" name="{@closeId}" width="16" height="16"/>
+                <input type="image" src="{$context}/wcf/form/cancel.png" name="{@closeId}"/>
               </td>
             </xsl:if>
           </tr>
@@ -144,7 +144,7 @@ stylesheet for wcf table component
       <xsl:with-param name="class">xtable-heading</xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates select="@colspan"/>
-    <input type="image" border="0" name="{@selectId}" src="{$context}/wcf/table/select.png" width="16" height="16"/>
+    <input type="image" border="0" name="{@selectId}" src="{$context}/wcf/table/select.png"/>
     <xsl:apply-templates/>
   </th>
 </xsl:template>
@@ -154,7 +154,7 @@ stylesheet for wcf table component
     <xsl:call-template name="set-class">
       <xsl:with-param name="class">xtable-heading</xsl:with-param>
     </xsl:call-template>
-    <input type="image" border="0" name="{@id}" src="{$context}/wcf/table/sort-{@sort}.png" width="9" height="9"/>
+    <input type="image" border="0" name="{@id}" src="{$context}/wcf/table/sort-{@sort}.png"/>
     <xsl:text> </xsl:text>
     <xsl:apply-templates/>
   </th>
@@ -181,7 +181,7 @@ stylesheet for wcf table component
 </xsl:template>
 
 <xsl:template match="xpagenav">
-  <input type="image" border="0" name="{@id}" src="{$context}/wcf/table/page-{@direction}.png" width="16" height="16"/>
+  <input type="image" border="0" name="{@id}" src="{$context}/wcf/table/page-{@direction}.png"/>
 </xsl:template>
 
 <xsl:template match="xgotopage">
@@ -190,7 +190,7 @@ stylesheet for wcf table component
   <xsl:text> </xsl:text>
   <input type="text" name="{@inputId}" value="{@value}" maxlength="3" size="3"/>
   <xsl:text> </xsl:text>
-  <input type="image" border="0" name="{@buttonId}" src="{$context}/wcf/table/gotopage.png" width="16" height="16"/>
+  <input type="image" border="0" name="{@buttonId}" src="{$context}/wcf/table/gotopage.png"/>
 </xsl:template>
 
 </xsl:stylesheet>

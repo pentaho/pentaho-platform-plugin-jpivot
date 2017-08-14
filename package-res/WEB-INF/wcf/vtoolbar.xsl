@@ -15,7 +15,7 @@
 <xsl:template match="tool-button">
   <tr>
     <td align="left">
-      <input type="image" name="{@id}" src="{$context}/{$imgpath}/{@img}.png" border="0" title="{@title}" width="24" height="24"/>
+      <input type="image" name="{@id}" src="{$context}/{$imgpath}/{@img}.png" border="0" title="{@title}"/>
     </td>
   </tr>
 </xsl:template>
@@ -35,7 +35,7 @@
         <xsl:if test="@target">
           <xsl:attribute name="target"><xsl:value-of select="@target"/></xsl:attribute>
         </xsl:if>
-        <img src="{$context}/{$imgpath}/{@img}.png" border="0" title="{@title}" width="24" height="24"/>
+        <img src="{$context}/{$imgpath}/{@img}.png" border="0" title="{@title}"/>
       </a>
     </td>
   </tr>
