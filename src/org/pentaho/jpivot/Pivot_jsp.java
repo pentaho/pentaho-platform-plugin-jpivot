@@ -1302,7 +1302,10 @@ public final class Pivot_jsp extends org.apache.jasper.runtime.HttpJspBase {
           out.write( "    // we remove the temporary form from the DOM.\n" );
           out.write( "    //\n" );
           out.write( "    function handle_puc_save(path, name, overwrite) {\n" );
-          out.write( "        controller.saveAs(name, name, \"\", path, overwrite);\n" );
+          out.write( "        var r = controller.saveAs(name, name, \"\", path, overwrite);\n" );
+          out.write( "        if(r) {\n" );
+          out.write( "            return path + \"/\" + name + \".xjpivot\";\n" );
+          out.write( "        }\n" );
           out.write( "    }\n" );
           out.write( "    var gCtrlr = {};\n" );
           out.write( "    gCtrlr.repositoryBrowserController = {};\n" );
