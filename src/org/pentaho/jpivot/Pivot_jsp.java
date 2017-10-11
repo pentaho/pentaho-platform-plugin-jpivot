@@ -12,7 +12,7 @@
 * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU Lesser General Public License for more details.
 *
-* Copyright 2016 Pentaho Corporation.  All rights reserved.
+* Copyright 2016 - 2017 Hitachi Vantara.  All rights reserved.
 *
 * This servlet is source generated from Tomcat's JSP generator, based on Pivot.jsp.  This
 * specific file was generated in 4.8 GA.
@@ -269,8 +269,8 @@ public final class Pivot_jsp extends org.apache.jasper.runtime.HttpJspBase {
 
 
 /*
- * Copyright 2006-2009 Pentaho Corporation.  All rights reserved.
- * This software was developed by Pentaho Corporation and is provided under the terms
+ * Copyright 2006-2017 Hitachi Vantara.  All rights reserved.
+ * This software was developed by Hitachi Vantara and is provided under the terms
  * of the Mozilla Public License, Version 1.1, or any later version. You may not use
  * this file except in compliance with the license. If you need a copy of the license,
  * please go to http://www.mozilla.org/MPL/MPL-1.1.txt. The Original Code is the Pentaho
