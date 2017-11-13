@@ -26,7 +26,6 @@
         	<title>JPivot View</title>
         	<description></description>
 	        <!-- <icon-url>api/repos/xwaqr/resources/images/adhoc-icon-small.png</icon-url> -->
-            <meta-provider>org.pentaho.platform.engine.services.solution.ActionSequenceFileInfo</meta-provider>
 	        <operations>
     		    	<operation>
     				<id>RUN</id>
