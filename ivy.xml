@@ -45,7 +45,7 @@
     </dependency>
 
     <!--  internal dependencies -->
-    <dependency org="pentaho" name="pentaho-actionsequence-dom" rev="${pentaho-actionsequence-dom.version}" changing="true" transitive="false"/>
+    <dependency org="org.pentaho" name="actionsequence-dom" rev="${pentaho-actionsequence-dom.version}" changing="true" transitive="false"/>
     <dependency org="pentaho" name="pentaho-platform-api" rev="${platform.version}" changing="true" transitive="false" conf="default->default"/>
     <dependency org="pentaho" name="pentaho-platform-core" rev="${platform.version}" changing="true" transitive="false" conf="default->default"/>
     <dependency org="pentaho" name="pentaho-platform-repository" rev="${platform.version}" changing="true" transitive="false" conf="default->default"/>
