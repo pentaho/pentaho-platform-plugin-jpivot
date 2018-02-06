@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin title="jpivot" loader="DEFAULT">
+  <!--plugin specific-->
+  <static-paths>
+    <static-path url="/jpivot/jpivot" localFolder="jpivot"/>
+    <static-path url="/jpivot/wcf" localFolder="wcf"/>
+    <static-path url="/jpivot/adhoc" localFolder="adhoc"/>
+  </static-paths>
+  
+  <!-- Menu entry -->
+  <menu-items/>
+
+  <overlays>
+    <overlay id="launch" resourcebundle="api/repos/jpivot/jpivot/messages" >
+      <button id="jpivot" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="Home.openFile('JPivot','JPivot', 'plugin/jpivot/AnalysisViewService?component=newView');$('#btnCreateNew').popover('hide')"/>
+    </overlay>
+    <overlay id="startup.jpivot"  resourcebundle="content/jpivot/jpivot/messages">
+		<menubar id="newmenu">
+			<menuitem id="adhocrep" label="${Launcher.NEW_JPIVOT_FILEMENU}" command="mantleXulHandler.openUrl('JPivot','JPivot','plugin/jpivot/AnalysisViewService?component=newView')" />		
+		</menubar>
+    </overlay>    		
+  </overlays>  
+  
+  	<content-types>
+		<content-type type="xjpivot" mime-type="text/html">
+        	<title>JPivot View</title>
+        	<description></description>
+	        <!-- <icon-url>api/repos/xwaqr/resources/images/adhoc-icon-small.png</icon-url> -->
+	        <operations>
+    		    	<operation>
+    				<id>RUN</id>
+       			</operation>
+	    	    	<operation>
+	       			<id>NEWWINDOW</id>
+	       		</operation>        		
+	        	<operation>
+    	    		<id>EDIT</id>
+            		<perspective>editor</perspective>
+        		</operation>
+	        </operations>
+    	</content-type>
+
+	</content-types>
+  	<content-generator id="xjpivot.editor" type="xjpivot.editor" class="org.pentaho.platform.web.http.ActionSequenceContentGenerator"/>
+  
+</plugin>
