@@ -29,6 +29,11 @@
       <version>${wcf.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.tonbeller</groupId>
+      <artifactId>tbutils-wcf</artifactId>
+      <version>${tbutils-wcf.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>jpivot-plugin-static</artifactId>
       <version>${project.version}</version>
