@@ -24,6 +24,7 @@
 
     <jpivot.version>1.8.0-280316</jpivot.version>
     <wcf.version>1.8.0-130820</wcf.version>
+    <tbutils-wcf.version>1.8.0-070305</tbutils-wcf.version>
     <servlet-api.version>2.4</servlet-api.version>
     <jsp-api.version>2.0</jsp-api.version>
     <jstl.version>1.0.5</jstl.version>
@@ -111,6 +112,17 @@
         <groupId>com.tonbeller</groupId>
         <artifactId>wcf</artifactId>
         <version>${wcf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.tonbeller</groupId>
+        <artifactId>tbutils-wcf</artifactId>
+        <version>${tbutils-wcf.version}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
