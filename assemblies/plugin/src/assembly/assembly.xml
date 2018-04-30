@@ -31,6 +31,7 @@
         <include>org.pentaho:jpivot-plugin-core:jar</include>
         <include>com.tonbeller:jpivot:jar</include>
         <include>com.tonbeller:wcf:jar</include>
+        <include>com.tonbeller:tbutils-wcf:jar</include>
       </includes>
       <useProjectArtifact>false</useProjectArtifact>
       <outputDirectory>lib</outputDirectory>
