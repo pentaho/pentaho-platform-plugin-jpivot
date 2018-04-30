@@ -22,6 +22,10 @@
       <artifactId>wcf</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.tonbeller</groupId>
+      <artifactId>tbutils-wcf</artifactId>
+    </dependency>
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>
