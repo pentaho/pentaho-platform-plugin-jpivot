@@ -30,7 +30,6 @@
     <jstl.version>1.0.5</jstl.version>
     <commons-lang.version>2.1</commons-lang.version>
     <commons-logging.version>1.2</commons-logging.version>
-    <dom4j.version>1.6.1</dom4j.version>
     <jasper.version>6.0.36</jasper.version>
     <taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <encoder.version>1.2</encoder.version>
@@ -181,17 +180,6 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>${commons-logging.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>dom4j</groupId>
-        <artifactId>dom4j</artifactId>
-        <version>${dom4j.version}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
