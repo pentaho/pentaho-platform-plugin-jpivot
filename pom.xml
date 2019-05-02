@@ -33,7 +33,6 @@
     <jasper.version>6.0.36</jasper.version>
     <taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <encoder.version>1.2</encoder.version>
-    <log4j.version>1.2.16</log4j.version>
     <commons-io.version>2.5</commons-io.version>
   </properties>
 
@@ -213,17 +212,6 @@
         <groupId>org.owasp.encoder</groupId>
         <artifactId>encoder</artifactId>
         <version>${encoder.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
