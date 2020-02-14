@@ -76,18 +76,7 @@ import org.pentaho.platform.web.servlet.messages.Messages;
 
 public class AnalysisViewService extends ServletBase {
 
-  public static final String jpivotPluginDir;
-
-  static {
-    // the plugin dir will be in one of 2 location
-    File f = new File( PentahoSystem.getApplicationContext()
-      .getSolutionPath( "system" + File.separator + "pentaho-jpivot-plugin" ) );
-    if ( f.exists() ) {
-      jpivotPluginDir = "pentaho-jpivot-plugin";
-    } else {
-      jpivotPluginDir = "pentaho-jpivot-plugin-legacy";
-    }
-  }
+  public static final String jpivotPluginDir = "jpivot";
 
   public static String ANALYSIS_VIEW_TEMPLATE = "analysis_view_template.xjpivot"; //$NON-NLS-1$
 
