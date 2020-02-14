@@ -12,7 +12,7 @@
 * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU Lesser General Public License for more details.
 *
-* Copyright (c) 2002-2017 Hitachi Vantara..  All rights reserved.
+* Copyright (c) 2002-2020 Hitachi Vantara..  All rights reserved.
 */
 
 package org.pentaho.jpivot;
@@ -76,20 +76,9 @@ import org.pentaho.platform.web.servlet.messages.Messages;
 
 public class AnalysisViewService extends ServletBase {
 
-  public static final String jpivotPluginDir;
+  public static final String jpivotPluginDir = "jpivot";
 
-  static {
-    // the plugin dir will be in one of 2 location
-    File f = new File( PentahoSystem.getApplicationContext()
-      .getSolutionPath( "system" + File.separator + "pentaho-jpivot-plugin" ) );
-    if ( f.exists() ) {
-      jpivotPluginDir = "pentaho-jpivot-plugin";
-    } else {
-      jpivotPluginDir = "pentaho-jpivot-plugin-legacy";
-    }
-  }
-
-  public static String ANALYSIS_VIEW_TEMPLATE = "analysis_view_template.xjpivot"; //$NON-NLS-1$
+  public static String ANALYSIS_VIEW_TEMPLATE = "analysis_view_template.xjpivot";
 
   private static final long serialVersionUID = 831738225052159697L;
 
@@ -97,7 +86,6 @@ public class AnalysisViewService extends ServletBase {
 
   private final IMondrianCatalogService mondrianCatalogService =
     PentahoSystem.get( IMondrianCatalogService.class, "IMondrianCatalogService", PentahoSessionHolder.getSession() );
-    //$NON-NLS-1$
 
   @Override
   public Log getLogger() {
@@ -108,11 +96,11 @@ public class AnalysisViewService extends ServletBase {
   protected void doGet( final HttpServletRequest request, final HttpServletResponse response )
     throws ServletException, IOException {
     String responseEncoding = PentahoSystem.getSystemSetting( "web-service-encoding", "utf-8" );
-    String component = request.getParameter( "component" ); //$NON-NLS-1$
+    String component = request.getParameter( "component" );
 
     // Check if we need to forward off before getting output stream. Fixes
     // JasperException
-    if ( component.equalsIgnoreCase( "newView" ) ) { //$NON-NLS-1$
+    if ( component.equalsIgnoreCase( "newView" ) ) {
       newAnalysisView( request, response );
       return;
     }
@@ -121,19 +109,20 @@ public class AnalysisViewService extends ServletBase {
 
     try {
 
-      boolean wrapWithSoap = "false".equals( request.getParameter( "ajax" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-      String actionPath = request.getParameter( "path" ); //$NON-NLS-1$
+      boolean wrapWithSoap = "false".equals( request.getParameter( "ajax" ) );
+
       String content = null;
       try {
         content = getPayloadAsString( request );
       } catch ( IOException ioEx ) {
         String msg = Messages.getInstance()
-          .getErrorString( "AdhocWebService.ERROR_0006_FAILED_TO_GET_PAYLOAD_FROM_REQUEST" ); //$NON-NLS-1$
+          .getErrorString( "AdhocWebService.ERROR_0006_FAILED_TO_GET_PAYLOAD_FROM_REQUEST" );
         error( msg, ioEx );
         XmlDom4JHelper.saveDom( WebServiceUtil.createErrorDocument( msg + " " + ioEx.getLocalizedMessage() ),
           response.getOutputStream(), responseEncoding, true );
       }
-      IParameterProvider parameterProvider = null;
+
+      IParameterProvider parameterProvider;
       HashMap parameters = new HashMap();
 
       if ( !StringUtils.isEmpty( content ) ) {
@@ -142,28 +131,21 @@ public class AnalysisViewService extends ServletBase {
           doc = XmlDom4JHelper.getDocFromString( content, new PentahoEntityResolver() );
         } catch ( XmlParseException e ) {
           String msg =
-            Messages.getInstance().getErrorString( "HttpWebService.ERROR_0001_ERROR_DURING_WEB_SERVICE" ); //$NON-NLS-1$
+            Messages.getInstance().getErrorString( "HttpWebService.ERROR_0001_ERROR_DURING_WEB_SERVICE" );
           error( msg, e );
           XmlDom4JHelper
             .saveDom( WebServiceUtil.createErrorDocument( msg ), response.getOutputStream(), responseEncoding, true );
         }
 
-        List parameterNodes = doc.selectNodes( "//SOAP-ENV:Body/*/*" ); //$NON-NLS-1$
+        List parameterNodes = doc.selectNodes( "//SOAP-ENV:Body/*/*" );
         for ( int i = 0; i < parameterNodes.size(); i++ ) {
           Node parameterNode = (Node) parameterNodes.get( i );
           String parameterName = parameterNode.getName();
           String parameterValue = parameterNode.getText();
-          // String type = parameterNode.selectSingleNode( "@type" );
-          // if( "xml-data".equalsIgnoreCase( ) )
-          if ( "action".equals( parameterName ) ) { //$NON-NLS-1$
-            //            ActionInfo info = ActionInfo.parseActionString(parameterValue);
-            //            solutionName = info.getSolutionName();
-            //            actionPath = info.getPath();
-            //            actionName = info.getActionName();
-            //            parameters.put("solution", solutionName); //$NON-NLS-1$
-            parameters.put( "path", parameterValue ); //$NON-NLS-1$
-            //            parameters.put("name", actionName); //$NON-NLS-1$
-          } else if ( "component".equals( parameterName ) ) { //$NON-NLS-1$
+
+          if ( "action".equals( parameterName ) ) {
+            parameters.put( "path", parameterValue );
+          } else if ( "component".equals( parameterName ) ) {
             component = parameterValue;
           } else {
             parameters.put( parameterName, parameterValue );
@@ -174,38 +156,22 @@ public class AnalysisViewService extends ServletBase {
         parameterProvider = new HttpRequestParameterProvider( request );
       }
 
-      //      if (!"generatePreview".equals(component)) { //$NON-NLS-1$
-      //        response.setContentType("text/xml"); //$NON-NLS-1$
-      //        response.setCharacterEncoding(responseEncoding);
-      //      }
-
-      // PentahoHttpSession userSession = new PentahoHttpSession(
-      // request.getRemoteUser(), request.getSession(),
-      // request.getLocale() );
       IPentahoSession userSession = getPentahoSession( request );
-
-      // send the header of the message to prevent time-outs while we are
-      // working
-      //response.setHeader("expires", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 
       dispatch( request, response, component, parameterProvider, userSession, wrapWithSoap );
 
     } catch ( IOException ioEx ) {
       String msg =
-        Messages.getInstance().getErrorString( "HttpWebService.ERROR_0001_ERROR_DURING_WEB_SERVICE" ); //$NON-NLS-1$
+        Messages.getInstance().getErrorString( "HttpWebService.ERROR_0001_ERROR_DURING_WEB_SERVICE" );
       error( msg, ioEx );
       XmlDom4JHelper
         .saveDom( WebServiceUtil.createErrorDocument( msg ), response.getOutputStream(), responseEncoding, true );
-    } catch ( PentahoSystemException ex ) {
+    } catch ( PentahoSystemException | PentahoAccessControlException ex ) {
       String msg = ex.getLocalizedMessage();
       error( msg, ex );
-      XmlDom4JHelper
-        .saveDom( WebServiceUtil.createErrorDocument( msg ), response.getOutputStream(), responseEncoding, true );
-    } catch ( PentahoAccessControlException ex ) {
-      String msg = ex.getLocalizedMessage();
-      error( msg, ex );
-      XmlDom4JHelper
-        .saveDom( WebServiceUtil.createErrorDocument( msg ), response.getOutputStream(), responseEncoding, true );
+
+      XmlDom4JHelper.saveDom( WebServiceUtil.createErrorDocument( msg ), response.getOutputStream(),
+        responseEncoding, true );
     } finally {
       PentahoSystem.systemExitPoint();
     }
@@ -215,9 +181,9 @@ public class AnalysisViewService extends ServletBase {
                            final IParameterProvider parameterProvider,
                            final IPentahoSession userSession, final boolean wrapWithSoap )
     throws IOException, PentahoSystemException, PentahoAccessControlException {
-    if ( "createNewView".equals( component ) ) { //$NON-NLS-1$
+    if ( "createNewView".equals( component ) ) {
       createNewView( userSession, parameterProvider, request, response, wrapWithSoap );
-    } else if ( "listCatalogs".equals( component ) ) { //$NON-NLS-1$
+    } else if ( "listCatalogs".equals( component ) ) {
       listCatalogs( userSession, response.getOutputStream(), wrapWithSoap );
     }
   }
@@ -228,9 +194,9 @@ public class AnalysisViewService extends ServletBase {
     PentahoSystem.systemEntryPoint();
     try {
       List<MondrianCatalog> catalogs = mondrianCatalogService.listCatalogs( getPentahoSession( request ), true );
-      String newAnalysisViewTemplate =
-        "system" + File.separator + jpivotPluginDir + File.separator + "resources" + File.separator
-          + "new_analysis_view.html"; //$NON-NLS-1$ //$NON-NLS-2$
+      String newAnalysisViewTemplate = "system" + File.separator + jpivotPluginDir + File.separator
+        + "resources" + File.separator + "new_analysis_view.html";
+
       String file = PentahoSystem.getApplicationContext().getSolutionPath( newAnalysisViewTemplate );
       String content = FileUtils.readFileToString( new File( file ), LocaleHelper.getSystemEncoding() );
       content = content.replaceAll( "\\{context\\}", request.getContextPath() );
@@ -238,17 +204,6 @@ public class AnalysisViewService extends ServletBase {
       content = content.replaceAll( "\\{json\\}", json );
 
       response.getWriter().print( content );
-
-      // request.setAttribute("catalog", catalogs); //$NON-NLS-1$
-      //      try {
-      //        RequestDispatcher dispatcher = request.getRequestDispatcher("NewAnalysisView"); //$NON-NLS-1$
-      //        if (dispatcher != null) {
-      //          dispatcher.forward(request, response);
-      //        }
-      //      } catch (ServletException e) {
-      //        XmlDom4JHelper.saveDom(WebServiceUtil.createErrorDocument(e.getMessage()), response.getOutputStream()
-      // , LocaleHelper.getSystemEncoding(), true);
-      //      }
     } finally {
       PentahoSystem.systemExitPoint();
     }
@@ -256,20 +211,21 @@ public class AnalysisViewService extends ServletBase {
 
   public void listCatalogs( final IPentahoSession userSession, final OutputStream outputStream,
                             final boolean wrapWithSoap ) throws IOException {
-    StringBuilder builder = new StringBuilder();
     List<MondrianCatalog> catalogs = mondrianCatalogService.listCatalogs( userSession, true );
-    Element rootElement = new DefaultElement( "catalogs" ); //$NON-NLS-1$
+    Element rootElement = new DefaultElement( "catalogs" );
     Document doc = DocumentHelper.createDocument( rootElement );
+
     for ( MondrianCatalog catalog : catalogs ) {
-      Element catalogElement =
-        rootElement.addElement( "catalog" ).addAttribute( "name", catalog.getName() ); //$NON-NLS-1$ //$NON-NLS-2$
+      Element catalogElement = rootElement.addElement( "catalog" ).addAttribute( "name", catalog.getName() );
       Element schemaElement = catalogElement.addElement( "schema" )
-        .addAttribute( "name", catalog.getSchema().getName() ); //$NON-NLS-1$ //$NON-NLS-2$
-      Element cubesElement = schemaElement.addElement( "cubes" ); //$NON-NLS-1$
+        .addAttribute( "name", catalog.getSchema().getName() );
+      Element cubesElement = schemaElement.addElement( "cubes" );
+
       for ( MondrianCube cube : catalog.getSchema().getCubes() ) {
-        cubesElement.addElement( "cube" ).addAttribute( "name", cube.getName() ); //$NON-NLS-1$ //$NON-NLS-2$
+        cubesElement.addElement( "cube" ).addAttribute( "name", cube.getName() );
       }
     }
+
     if ( wrapWithSoap ) {
       XmlDom4JHelper.saveDom( SoapHelper.createSoapResponseDocument( doc ), outputStream,
         PentahoSystem.getSystemSetting( "web-service-encoding", "utf-8" ), true );
@@ -285,15 +241,14 @@ public class AnalysisViewService extends ServletBase {
     throws IOException, PentahoSystemException, PentahoAccessControlException {
 
     try {
-      String solutionName = parameterProvider.getStringParameter( "solution", null ); //$NON-NLS-1$
-      String solutionPath = parameterProvider.getStringParameter( "actionPath", null ); //$NON-NLS-1$
-      String model = parameterProvider.getStringParameter( "schema", null ); //$NON-NLS-1$
-      String cube = parameterProvider.getStringParameter( "cube", null ); //$NON-NLS-1$
-      String title = parameterProvider.getStringParameter( "name", null ); //$NON-NLS-1$
-      String description = parameterProvider.getStringParameter( "descr", null ); //$NON-NLS-1$
+      String solutionName = parameterProvider.getStringParameter( "solution", null );
+      String model = parameterProvider.getStringParameter( "schema", null );
+      String cube = parameterProvider.getStringParameter( "cube", null );
+      String title = parameterProvider.getStringParameter( "name", null );
+      String description = parameterProvider.getStringParameter( "descr", null );
       String jndi = null;
       String jdbc = null;
-      String xactionFilename = parameterProvider.getStringParameter( "actionName", null ); //$NON-NLS-1$
+      String xactionFilename = parameterProvider.getStringParameter( "actionName", null );
 
       // get reference to selected mondrian catalog
       MondrianCatalog selectedCatalog = mondrianCatalogService.getCatalog( model, session );
@@ -301,11 +256,8 @@ public class AnalysisViewService extends ServletBase {
       // validate parameters
       if ( selectedCatalog == null ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) );
       }
-
-      // MondrianDataSource datasource =
-      // selectedCatalog.getEffectiveDataSource();
 
       if ( selectedCatalog.isJndi() ) {
         // by default, this datasource should be unbound. we still support fully
@@ -316,93 +268,77 @@ public class AnalysisViewService extends ServletBase {
             PentahoSystem.getObjectFactory().get( IDBDatasourceService.class, null );
           jndi = datasourceService.getDSUnboundName( selectedCatalog.getJndi() );
         } catch ( ObjectFactoryException objface ) {
-          Logger.error( "AnalysisViewService",
-            Messages.getInstance().getErrorString( "AnalysisViewService.ERROR_0001_UNABLE_TO_FACTORY_OBJECT", jndi ),
-            objface ); //$NON-NLS-1$ //$NON-NLS-2$
+          Logger.error( "AnalysisViewService", Messages.getInstance()
+            .getErrorString( "AnalysisViewService.ERROR_0001_UNABLE_TO_FACTORY_OBJECT", jndi ), objface );
         }
       } else {
-        jdbc = null; // datasource.getJdbc();
+        jdbc = null;
       }
 
       model = selectedCatalog.getDefinition();
 
-      if ( ( solutionName == null ) || solutionName.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( solutionName == null ) || solutionName.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0001_SOLUTION_NAME_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0001_SOLUTION_NAME_NULL" ) );
       }
-      if ( ( solutionPath == null ) || solutionPath.equals( "" ) ) { //$NON-NLS-1$
-        solutionPath = "/"; //$NON-NLS-1$
-      }
-      if ( ( title == null ) || title.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( title == null ) || title.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0003_TITLE_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0003_TITLE_NULL" ) );
       }
-      if ( ( model == null ) || model.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( model == null ) || model.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) );
       }
-      if ( ( description == null ) || description.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( description == null ) || description.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0005_DESCRIPTION_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0005_DESCRIPTION_NULL" ) );
       }
-      if ( ( jndi == null ) || jndi.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( jndi == null ) || jndi.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) );
       }
-      if ( ( cube == null ) || cube.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( cube == null ) || cube.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0007_CUBE_NULL" ) ); //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0007_CUBE_NULL" ) );
       }
-      if ( ( xactionFilename == null ) || xactionFilename.equals( "" ) ) { //$NON-NLS-1$
+      if ( ( xactionFilename == null ) || xactionFilename.equals( "" ) ) {
         throw new PentahoSystemException(
-          Messages.getInstance().getString( "AnalysisViewService.ERROR_0008_XACTION_NULL" ) ); //$NON-NLS-1$
-      }
-      String path = solutionName;
-      if ( !solutionName.endsWith( "/" ) && !solutionPath.startsWith( "/" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
-        path += "/"; //$NON-NLS-1$
+          Messages.getInstance().getString( "AnalysisViewService.ERROR_0008_XACTION_NULL" ) );
       }
 
-      if ( !xactionFilename.endsWith( ".xjpivot" ) ) { //$NON-NLS-1$
-        xactionFilename += ".xjpivot"; //$NON-NLS-1$
+      if ( !xactionFilename.endsWith( ".xjpivot" ) ) {
+        xactionFilename += ".xjpivot";
       }
-
-      path += solutionPath;
-
-      boolean overwrite = parameterProvider.getStringParameter( "overwrite", "false" )
-        .equalsIgnoreCase( "true" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
       String xaction = generateXAction( session, title, description, model, jndi, jdbc, cube );
 
-      String processId = "PivotView"; //$NON-NLS-1$
-      String instanceId = request.getParameter( "instance-id" ); //$NON-NLS-1$
-      boolean doMessages = "true".equalsIgnoreCase( request.getParameter( "debug" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+      String instanceId = request.getParameter( "instance-id" );
 
-      //      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      IOutputHandler outputHandler =
-        XactionUtil.createOutputHandler( response, XactionUtil.getOutputStream( response, false ) );
+      IOutputHandler outputHandler = XactionUtil.createOutputHandler( response, XactionUtil
+        .getOutputStream( response, false ) );
 
-      //      SimpleOutputHandler outputHandler = new SimpleOutputHandler( outputStream, true );
       ISolutionEngine solutionEngine = PentahoSystem.get( ISolutionEngine.class );
       solutionEngine.init( PentahoSessionHolder.getSession() );
-      IRuntimeContext context = null;
+
       ArrayList messages = new ArrayList();
       HttpRequestParameterProvider requestParameters = new HttpRequestParameterProvider( request );
       HttpSessionParameterProvider sessionParameters =
         new HttpSessionParameterProvider( PentahoSessionHolder.getSession() );
-      HashMap parameterProviders = new HashMap();
-      requestParameters.setParameter( PivotViewComponent.MODE, "redirect" ); //$NON-NLS-1$ //$NON-NLS-2$
-      parameterProviders.put( HttpRequestParameterProvider.SCOPE_REQUEST, requestParameters ); //$NON-NLS-1$
-      parameterProviders.put( HttpSessionParameterProvider.SCOPE_SESSION, sessionParameters ); //$NON-NLS-1$
-      SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" ); //$NON-NLS-1$
 
-      context = solutionEngine
-        .execute( xaction, xactionFilename, Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ), false,
-          true, instanceId, false, parameterProviders, outputHandler, null, urlFactory, messages ); //$NON-NLS-1$
+      HashMap parameterProviders = new HashMap();
+      requestParameters.setParameter( PivotViewComponent.MODE, "redirect" );
+      parameterProviders.put( HttpRequestParameterProvider.SCOPE_REQUEST, requestParameters );
+      parameterProviders.put( HttpSessionParameterProvider.SCOPE_SESSION, sessionParameters );
+
+      SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" );
+
+      solutionEngine.execute( xaction, xactionFilename, Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ),
+        false, true, instanceId, false, parameterProviders, outputHandler, null,
+        urlFactory, messages );
 
     } catch ( Exception e ) {
       e.printStackTrace( response.getWriter() );
 
-      // sendXActionError(e.getMessage(), request, response);
     }
   }
 
@@ -420,14 +356,15 @@ public class AnalysisViewService extends ServletBase {
     if ( session.getName() != null ) {
       doc.setAuthor( session.getName() );
     } else {
-      doc.setAuthor( "Analysis View" ); //$NON-NLS-1$
+      doc.setAuthor( "Analysis View" );
     }
+
     doc.setDescription( description );
 
     PivotViewAction action = (PivotViewAction) doc.getElement(
       "/" + IActionSequenceDocument.ACTION_SEQUENCE + "/" + IActionSequenceDocument.ACTIONS_NAME + "/"
         + IActionSequenceDocument.ACTION_DEFINITION_NAME
-        + "[component-name='PivotViewComponent']" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        + "[component-name='PivotViewComponent']" );
     action.setModel( new ActionInputConstant( model, null ) );
     if ( jndi != null ) {
       action.setJndi( new ActionInputConstant( jndi, null ) );
@@ -435,12 +372,12 @@ public class AnalysisViewService extends ServletBase {
       // note, pivot view action does not support jdbc based connections at this
       // time
       throw new PentahoSystemException(
-        Messages.getInstance().getErrorString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) ); //$NON-NLS-1$
+        Messages.getInstance().getErrorString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) );
     }
 
     // TODO: add JDBC datasource support
     if ( cube != null ) {
-      action.setComponentDefinition( "cube", cube ); //$NON-NLS-1$
+      action.setComponentDefinition( "cube", cube );
     }
 
     return doc.toString();
@@ -452,9 +389,8 @@ public class AnalysisViewService extends ServletBase {
   public ActionSequenceDocument loadAnalysisViewTemplate( final IPentahoSession session )
     throws PentahoSystemException {
 
-    String analysisViewTemplate =
-      "system" + File.separator + jpivotPluginDir + File.separator + "resources" + File.separator
-        + AnalysisViewService.ANALYSIS_VIEW_TEMPLATE; //$NON-NLS-1$ //$NON-NLS-2$
+    String analysisViewTemplate = "system" + File.separator + jpivotPluginDir + File.separator
+      + "resources" + File.separator + AnalysisViewService.ANALYSIS_VIEW_TEMPLATE;
     InputStream is = null;
 
     try {
@@ -466,11 +402,11 @@ public class AnalysisViewService extends ServletBase {
         return new ActionSequenceDocument( doc );
       } else {
         throw new PentahoSystemException( Messages.getInstance()
-          .getString( "AnalysisViewService.ERROR_0009_TEMPLATE_DOES_NOT_EXIST", analysisViewTemplate ) ); //$NON-NLS-1$
+          .getString( "AnalysisViewService.ERROR_0009_TEMPLATE_DOES_NOT_EXIST", analysisViewTemplate ) );
       }
     } catch ( Exception e ) {
       throw new PentahoSystemException( Messages.getInstance()
-        .getString( "AnalysisViewService.ERROR_0010_TEMPLATE_DOES_NOT_PARSE", analysisViewTemplate ), e ); //$NON-NLS-1$
+        .getString( "AnalysisViewService.ERROR_0010_TEMPLATE_DOES_NOT_PARSE", analysisViewTemplate ), e );
     } finally {
       try {
         if ( is != null ) {
@@ -485,7 +421,7 @@ public class AnalysisViewService extends ServletBase {
   public String getPayloadAsString( final HttpServletRequest request ) throws IOException {
     InputStream is = request.getInputStream();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
-    String content = null;
+    String content;
 
     byte[] buffer = new byte[ 2048 ];
     int b = is.read( buffer );
@@ -493,28 +429,27 @@ public class AnalysisViewService extends ServletBase {
       os.write( buffer, 0, b );
       b = is.read( buffer );
     }
+
     content = os.toString( LocaleHelper.getSystemEncoding() );
     return content;
   }
 
   private void sendXActionError( final String errorString, final HttpServletRequest request,
                                  final HttpServletResponse response ) throws IOException {
-    request.setAttribute( "errorMessage", errorString ); //$NON-NLS-1$
-    //newAnalysisView(request, response);
+    request.setAttribute( "errorMessage", errorString );
     response.getWriter().println( errorString );
-
   }
 
   public IRuntimeContext getNewAnalysisViewRuntime( HttpServletRequest request, IPentahoSession userSession )
     throws PentahoSystemException {
-    String schema = request.getParameter( "schema" ); //$NON-NLS-1$
-    String cube = request.getParameter( "cube" ); //$NON-NLS-1$
-    String instanceId = request.getParameter( "instance-id" ); //$NON-NLS-1$
+    String schema = request.getParameter( "schema" );
+    String cube = request.getParameter( "cube" );
+    String instanceId = request.getParameter( "instance-id" );
 
     String jndi = null;
     String jdbc = null;
     IMondrianCatalogService mondrianCatalogService =
-      PentahoSystem.get( IMondrianCatalogService.class, "IMondrianCatalogService", userSession ); //$NON-NLS-1$
+      PentahoSystem.get( IMondrianCatalogService.class, "IMondrianCatalogService", userSession );
 
     // get reference to selected mondrian catalog
     MondrianCatalog selectedCatalog = mondrianCatalogService.getCatalog( schema, userSession );
@@ -522,7 +457,7 @@ public class AnalysisViewService extends ServletBase {
     // validate parameters
     if ( selectedCatalog == null ) {
       throw new PentahoSystemException(
-        Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) ); //$NON-NLS-1$
+        Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) );
     }
 
     if ( selectedCatalog.isJndi() ) {
@@ -536,27 +471,27 @@ public class AnalysisViewService extends ServletBase {
       } catch ( ObjectFactoryException objface ) {
         Logger.error( "AnalysisViewService",
           Messages.getInstance().getErrorString( "AnalysisViewService.ERROR_0001_UNABLE_TO_FACTORY_OBJECT", jndi ),
-          objface ); //$NON-NLS-1$ //$NON-NLS-2$
+          objface );
       }
     } else {
-      jdbc = null; // datasource.getJdbc();
+      jdbc = null;
     }
 
     String model = selectedCatalog.getDefinition();
 
-    if ( ( model == null ) || model.equals( "" ) ) { //$NON-NLS-1$
+    if ( ( model == null ) || model.equals( "" ) ) {
       throw new PentahoSystemException(
-        Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) ); //$NON-NLS-1$
+        Messages.getInstance().getString( "AnalysisViewService.ERROR_0004_MODEL_NULL" ) );
     }
 
-    if ( ( jndi == null ) || jndi.equals( "" ) ) { //$NON-NLS-1$
+    if ( ( jndi == null ) || jndi.equals( "" ) ) {
       throw new PentahoSystemException(
-        Messages.getInstance().getString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) ); //$NON-NLS-1$
+        Messages.getInstance().getString( "AnalysisViewService.ERROR_0006_JNDI_NULL" ) );
     }
 
-    if ( ( cube == null ) || cube.equals( "" ) ) { //$NON-NLS-1$
+    if ( ( cube == null ) || cube.equals( "" ) ) {
       throw new PentahoSystemException(
-        Messages.getInstance().getString( "AnalysisViewService.ERROR_0007_CUBE_NULL" ) ); //$NON-NLS-1$
+        Messages.getInstance().getString( "AnalysisViewService.ERROR_0007_CUBE_NULL" ) );
     }
 
     String xaction = new AnalysisViewService()
@@ -567,21 +502,21 @@ public class AnalysisViewService extends ServletBase {
     SimpleOutputHandler outputHandler = new SimpleOutputHandler( outputStream, true );
     ISolutionEngine solutionEngine = PentahoSystem.get( ISolutionEngine.class, userSession );
     solutionEngine.init( userSession );
-    IRuntimeContext context = null;
+
     ArrayList messages = new ArrayList();
     HttpRequestParameterProvider requestParameters = new HttpRequestParameterProvider( request );
     HttpSessionParameterProvider sessionParameters = new HttpSessionParameterProvider( userSession );
+
     HashMap parameterProviders = new HashMap();
-    requestParameters.setParameter( PivotViewComponent.MODE, PivotViewComponent.EXECUTE ); //$NON-NLS-1$ //$NON-NLS-2$
-    parameterProviders.put( HttpRequestParameterProvider.SCOPE_REQUEST, requestParameters ); //$NON-NLS-1$
-    parameterProviders.put( HttpSessionParameterProvider.SCOPE_SESSION, sessionParameters ); //$NON-NLS-1$
-    SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" ); //$NON-NLS-1$
+    requestParameters.setParameter( PivotViewComponent.MODE, PivotViewComponent.EXECUTE );
+    parameterProviders.put( HttpRequestParameterProvider.SCOPE_REQUEST, requestParameters );
+    parameterProviders.put( HttpSessionParameterProvider.SCOPE_SESSION, sessionParameters );
 
-    // context = solutionEngine.execute( solutionName + "/" + actionPath, actionName, Messages.getInstance().getString("BaseTest.DEBUG_JUNIT_TEST"), false, true, instanceId, false, parameterProviders, outputHandler, null, urlFactory, messages ); //$NON-NLS-1$
+    SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" );
 
-    context = solutionEngine
-      .execute( xaction, "default.xjpivot", Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ), false,
-        true, instanceId, false, parameterProviders, outputHandler, null, urlFactory, messages ); //$NON-NLS-1$
+    IRuntimeContext context = solutionEngine.execute( xaction, "default.xjpivot",
+      Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ), false, true, instanceId,
+      false, parameterProviders, outputHandler, null, urlFactory, messages );
 
 
     if ( context != null && context.getStatus() == IRuntimeContext.RUNTIME_STATUS_SUCCESS ) {
