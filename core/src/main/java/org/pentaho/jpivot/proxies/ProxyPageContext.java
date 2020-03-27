@@ -12,7 +12,7 @@
 * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU Lesser General Public License for more details.
 *
-* Copyright (c) 2002-2017 Hitachi Vantara..  All rights reserved.
+* Copyright (c) 2002-2020 Hitachi Vantara..  All rights reserved.
 */
 
 package org.pentaho.jpivot.proxies;
@@ -20,6 +20,7 @@ package org.pentaho.jpivot.proxies;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import javax.el.ELContext;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -40,6 +41,11 @@ public class ProxyPageContext extends PageContext {
 
   public ProxyPageContext(PageContext p) {
     this.p = p;
+  }
+
+  @Override
+  public ELContext getELContext() {
+    return p.getELContext();
   }
 
   @Override
