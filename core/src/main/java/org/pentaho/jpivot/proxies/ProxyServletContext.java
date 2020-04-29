@@ -12,7 +12,7 @@
 * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU Lesser General Public License for more details.
 *
-* Copyright (c) 2002-2017 Hitachi Vantara..  All rights reserved.
+* Copyright (c) 2002-2020 Hitachi Vantara..  All rights reserved.
 */
 
 package org.pentaho.jpivot.proxies;
@@ -38,6 +38,11 @@ public class ProxyServletContext implements ServletContext {
 
   public ProxyServletContext(ServletContext c) {
     this.c = c;
+  }
+
+  @Override
+  public String getContextPath() {
+    return c.getContextPath();
   }
 
   @Override
