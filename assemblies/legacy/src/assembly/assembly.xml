@@ -33,6 +33,8 @@
     <dependencySet>
       <includes>
         <include>org.pentaho:jpivot-plugin-core:jar</include>
+        <include>org.apache.taglibs:taglibs-standard-spec:jar</include>
+        <include>org.apache.taglibs:taglibs-standard-impl:jar</include>
         <include>com.tonbeller:jpivot:jar</include>
         <include>com.tonbeller:wcf:jar</include>
         <include>com.tonbeller:tbutils-wcf:jar</include>

@@ -25,14 +25,14 @@
     <jpivot.version>1.8.0-280316</jpivot.version>
     <wcf.version>1.8.0-130820</wcf.version>
     <tbutils-wcf.version>1.8.0-070305</tbutils-wcf.version>
-    <servlet-api.version>2.4</servlet-api.version>
-    <jsp-api.version>2.0</jsp-api.version>
-    <jstl.version>1.0.5</jstl.version>
     <commons-lang.version>2.1</commons-lang.version>
     <jasper.version>6.0.36</jasper.version>
     <taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <encoder.version>1.2</encoder.version>
     <commons-io.version>2.5</commons-io.version>
+    <taglibs-standard.version>1.2.5</taglibs-standard.version>
+    <servlet-api.version>2.5</servlet-api.version>
+    <jsp-api.version>2.1</jsp-api.version>
   </properties>
 
   <dependencyManagement>
@@ -95,6 +95,28 @@
       </dependency>
       <!-- external -->
       <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>${jsp-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-spec</artifactId>
+        <version>${taglibs-standard.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <version>${taglibs-standard.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.tonbeller</groupId>
         <artifactId>jpivot</artifactId>
         <version>${jpivot.version}</version>
@@ -120,42 +142,6 @@
         <groupId>com.tonbeller</groupId>
         <artifactId>tbutils-wcf</artifactId>
         <version>${tbutils-wcf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${servlet-api.version}</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jsp-api</artifactId>
-        <version>${jsp-api.version}</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jstl</artifactId>
-        <version>${jstl.version}</version>
-        <scope>provided</scope>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
