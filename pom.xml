@@ -112,11 +112,6 @@
         <version>${taglibs-standard.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.taglibs</groupId>
-        <artifactId>taglibs-standard-impl</artifactId>
-        <version>${taglibs-standard.version}</version>
-      </dependency>
-      <dependency>
         <groupId>com.tonbeller</groupId>
         <artifactId>jpivot</artifactId>
         <version>${jpivot.version}</version>
@@ -150,7 +145,7 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>apache-lang</groupId>
+        <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
         <version>${commons-lang.version}</version>
         <exclusions>
