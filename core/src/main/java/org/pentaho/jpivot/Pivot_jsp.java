@@ -40,7 +40,7 @@ import javax.servlet.jsp.SkipPageException;
 import javax.servlet.jsp.jstl.core.Config;
 import javax.sql.DataSource;
 
-import org.apache.log4j.MDC;
+import org.apache.logging.log4j.ThreadContext;
 import org.owasp.encoder.Encode;
 import org.pentaho.jpivot.proxies.ProxyHttpServletRequest;
 import org.pentaho.jpivot.proxies.ProxyPageContext;
@@ -249,7 +249,7 @@ public final class Pivot_jsp extends org.apache.jasper.runtime.HttpJspBase {
       // synchronization logic that is no longer necessary. (PDB-369)
       MultiPartEnabledRequest mprequest = new MultiPartEnabledRequest( (HttpServletRequest) request );
       HttpSession mpsession = mprequest.getSession( true );
-      MDC.put( "SessionID", mpsession.getId() );
+      ThreadContext.put("SessionID", mpsession.getId() );
       String cpath = mprequest.getContextPath();
       mprequest.setAttribute( "context", cpath + "/plugin/jpivot" );
 
