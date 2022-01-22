@@ -30,7 +30,6 @@
     <jasper.version>6.0.36</jasper.version>
     <taglibs-standard-impl.version>1.2.5</taglibs-standard-impl.version>
     <encoder.version>1.2</encoder.version>
-    <log4j.version>1.2.16</log4j.version>
     <commons-io.version>2.5</commons-io.version>
     <taglibs-standard.version>1.2.5</taglibs-standard.version>
     <servlet-api.version>2.5</servlet-api.version>
@@ -202,8 +201,8 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
         <version>${log4j.version}</version>
         <exclusions>
           <exclusion>
