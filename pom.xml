@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.pentaho</groupId>
     <artifactId>pentaho-ce-jar-parent-pom</artifactId>
-    <version>9.3.0.0-SNAPSHOT</version>
+    <version>9.3.0.7-833</version>
   </parent>
 
   <artifactId>jpivot-plugin-parent</artifactId>
@@ -19,8 +19,8 @@
   </scm>
 
   <properties>
-    <pentaho-actionsequence-dom.version>9.3.0.0-SNAPSHOT</pentaho-actionsequence-dom.version>
-    <platform.version>9.3.0.0-SNAPSHOT</platform.version>
+    <pentaho-actionsequence-dom.version>9.3.0.7-833</pentaho-actionsequence-dom.version>
+    <platform.version>9.3.0.7-833</platform.version>
 
     <jpivot.version>1.8.0-280316</jpivot.version>
     <wcf.version>1.8.0-130820</wcf.version>
