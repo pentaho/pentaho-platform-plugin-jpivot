@@ -1,3 +1,14 @@
+/*! ******************************************************************************
+ *
+ * Pentaho
+ *
+ * Copyright (C) 2024 by Hitachi Vantara, LLC : http://www.pentaho.com
+ *
+ * Use of this software is governed by the Business Source License included
+ * in the LICENSE.TXT file.
+ *
+ * Change Date: 2028-08-13
+ ******************************************************************************/
 /*! Slovenian language file for the DHTML Calendar version 0.9.2
 * Feel free to use this script under the terms of the GNU Lesser General
 * Public License, as long as you do not remove or alter this notice.
