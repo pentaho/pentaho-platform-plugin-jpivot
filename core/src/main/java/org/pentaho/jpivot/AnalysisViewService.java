@@ -25,6 +25,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.XMLConstants;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -394,6 +395,11 @@ public class AnalysisViewService extends ServletBase {
       if ( f.exists() ) {
         is = new FileInputStream( f );
         SAXReader reader = new SAXReader();
+        reader.setFeature( "http://apache.org/xml/features/disallow-doctype-decl", true );
+        reader.setFeature( XMLConstants.FEATURE_SECURE_PROCESSING, true );
+        reader.setFeature( "http://xml.org/sax/features/external-general-entities", false );
+        reader.setFeature( "http://xml.org/sax/features/external-parameter-entities", false );
+        reader.setFeature( "http://apache.org/xml/features/nonvalidating/load-external-dtd", false );
         Document doc = reader.read( is );
         return new ActionSequenceDocument( doc );
       } else {
