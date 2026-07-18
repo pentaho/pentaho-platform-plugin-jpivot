@@ -2,18 +2,19 @@
  *
  * Pentaho
  *
- * Copyright (C) 2024 by Hitachi Vantara, LLC : http://www.pentaho.com
+ * Copyright (C) 2024 - 2026 by Pentaho Canada Inc. : http://www.pentaho.com
  *
  * Use of this software is governed by the Business Source License included
  * in the LICENSE.TXT file.
  *
- * Change Date: 2029-07-20
+ * Change Date: 2030-06-15
  ******************************************************************************/
+
 
 
  document.write("<script type='text/javascript' src='webcontext.js'></script>"); 
 /**
- * This class provides a mechanism for calling a Hitachi Vantara WebService using AJAX techniques.
+ * This class provides a mechanism for calling a Pentaho WebService using AJAX techniques.
  * This is a stateless, static class, you should never call the ctor
  */
 WebServiceProxy = function()
